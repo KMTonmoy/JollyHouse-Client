@@ -25,7 +25,7 @@ const Navbar = () => {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="bg-gradient-to-r from-purple-600 to-indigo-600 py-4"
+            className="bg-gradient-to-r from-purple-600 to-indigo-600 py-4 z-50 relative"
         >
             <div className="container mx-auto flex justify-between items-center">
                 <div className="flex items-center">
@@ -40,7 +40,7 @@ const Navbar = () => {
                     <Link to="/contact" className="block px-4 py-2 text-white hover:bg-indigo-700">Contact</Link>
                     <Link to="/about" className="block px-4 py-2 text-white hover:bg-indigo-700">About</Link>
                 </div>
-                <div className="flex items-center">
+                <div className="flex items-center relative z-50">
                     <div className="md:hidden">
                         <button onClick={toggleMobileMenu} className="text-white focus:outline-none">
                             <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -67,7 +67,7 @@ const Navbar = () => {
                                 initial={{ opacity: 0, y: -10 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.3 }}
-                                className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1"
+                                className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50"
                             >
                                 {user ? (
                                     <div>

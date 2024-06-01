@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
-import { AuthContext } from '../../providers/AuthProvider';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../../providers/AuthProvider';
 
 const Apartments = () => {
     const { user } = useContext(AuthContext);
@@ -13,7 +13,7 @@ const Apartments = () => {
 
         const fetchApartments = async () => {
             try {
-                const response = await axios.get('apertment.json');
+                const response = await axios.get('http://localhost:8000/apertment');
                 setApartments(response.data);
             } catch (error) {
                 console.error('Error fetching apartments:', error);
@@ -64,7 +64,7 @@ const Apartments = () => {
                         <p className="text-lg font-semibold">Block Name: {apartment.blockName}</p>
                         <p className="text-lg font-semibold">Apartment No: {apartment.apartmentNo}</p>
                         <p className="text-lg font-semibold">Rent: ${apartment.rent}</p>
-                        <Link to={`/apartments/${apartment.id}`}>
+                        <Link to={`/apartments/${apartment._id}`}>
                             <button
                                 className="mt-4 inline-block px-6 py-3 text-lg font-semibold text-white bg-blue-500 rounded-md shadow-md transition duration-300 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
                             >

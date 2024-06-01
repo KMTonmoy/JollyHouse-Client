@@ -21,7 +21,7 @@ export const router = createBrowserRouter([
             {
                 path: "/apartments/:id",
                 element: <ApartmentDetails />,
-                // loader:({ params })=> fetch(`apertment.json/${params.id}`)
+                loader: ({ params }) => fetch(`http://localhost:8000/apertment/${params.id}`)
             },
         ]
     },

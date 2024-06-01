@@ -1,15 +1,18 @@
 import { useContext, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../providers/AuthProvider';
 import { FaGoogle, FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
-
+import Swal from 'sweetalert2'
 const Login = () => {
     const { signIn, signInWithGoogle } = useContext(AuthContext);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState('');
-
+    const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from?.pathname || "/";
+    console.log('state in the location login page', location.state)
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
@@ -22,6 +25,18 @@ const Login = () => {
     const handleGoogleLogin = async () => {
         try {
             await signInWithGoogle();
+            Swal.fire({
+                title: 'User Login Successful.',
+                showClass: {
+                    popup: 'animate__animated animate__fadeInDown'
+                },
+                hideClass: {
+                    popup: 'animate__animated animate__fadeOutUp'
+                }
+            });
+            setTimeout(() => {
+                navigate(from, { replace: true });
+            }, 4000);
         } catch (error) {
             setError(error.message);
         }

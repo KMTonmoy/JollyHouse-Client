@@ -1,33 +1,29 @@
 import React from 'react';
-
+import { useLoaderData } from 'react-router-dom';
+import { motion } from 'framer-motion';
 
 const ApartmentDetails = () => {
-    //     const data = useLoaderData()
-    // console.log(data)
-    // Dummy data for demonstration
-    const apartmentDetails = {
-        image: 'apartment-image.jpg',
-        floorNo: 3,
-        blockName: 'Block A',
-        apartmentNo: 302,
-        rent: 1500,
-
-    };
+    const apartment = useLoaderData();
 
     return (
         <div className="container mx-auto px-4 py-8">
-            <h2 className="text-3xl font-bold text-center mb-8">Apartment Details</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                <div className="bg-white rounded-lg shadow-lg p-6">
-                    <img src={apartmentDetails.image} alt={`Apartment ${apartmentDetails.apartmentNo}`} className="w-full h-48 object-cover rounded-t-lg mb-4" />
-                    <p className="text-lg font-semibold">Floor No: {apartmentDetails.floorNo}</p>
-                    <p className="text-lg font-semibold">Block Name: {apartmentDetails.blockName}</p>
-                    <p className="text-lg font-semibold">Apartment No: {apartmentDetails.apartmentNo}</p>
-                    <p className="text-lg font-semibold">Rent: ${apartmentDetails.rent}</p>
-
+            <motion.div
+                className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5 }}
+            >
+                <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+                    <img src={apartment.image} alt={`Apartment ${apartment.apartmentNo}`} className="w-full h-auto object-cover" />
                 </div>
-
-            </div>
+                <div className="flex flex-col justify-center">
+                    <h1 className="text-4xl font-bold mb-4">{apartment.blockName}</h1>
+                    <p className="text-lg mb-8">Floor No: {apartment.floorNo}</p>
+                    <p className="text-lg mb-8">Apartment No: {apartment.apartmentNo}</p>
+                    <p className="text-lg mb-8">Rent: ${apartment.rent}</p>
+                    <button className="bg-blue-500 text-white px-6 py-3 rounded-md shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">Book Now</button>
+                </div>
+            </motion.div>
         </div>
     );
 };
