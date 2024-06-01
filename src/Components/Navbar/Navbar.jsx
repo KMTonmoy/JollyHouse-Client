@@ -25,20 +25,20 @@ const Navbar = () => {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="bg-gray-800 py-4"
+            className="bg-gradient-to-r from-purple-600 to-indigo-600 py-4"
         >
             <div className="container mx-auto flex justify-between items-center">
-                <div className="flex items-center mx-2">
+                <div className="flex items-center">
                     <Link to="/" className="flex items-center text-white text-lg font-semibold mr-6 transition duration-500 ease-in-out transform hover:scale-110">
-                        <img src="https://image.similarpng.com/very-thumbnail/2021/09/Abstract-Letter-J-Logo-3D-Sphere-Logo-on-transparent-background-PNG.png" alt="Logo" className="rounded-full w-10 h-10 mr-2" />
+                        <img src="https://p7.hiclipart.com/preview/629/807/717/5bbc6ae8b065a-thumbnail.jpg" alt="Logo" className="rounded-full w-10 h-10 mx-2" />
                         JollyHome
                     </Link>
-                    <div className='hidden md:flex'>
-                        <Link to="/" className="block px-4 py-2 text-white hover:bg-gray-700">Home</Link>
-                        <Link to="/apartments" className="block px-4 py-2 text-white hover:bg-gray-700">Apartments</Link>
-                        <Link to="/contact" className="block px-4 py-2 text-white hover:bg-gray-700">Contact</Link>
-                        <Link to="/about" className="block px-4 py-2 text-white hover:bg-gray-700">About</Link>
-                    </div>
+                </div>
+                <div className='hidden md:flex justify-center'>
+                    <Link to="/" className="block px-4 py-2 text-white hover:bg-indigo-700">Home</Link>
+                    <Link to="/apartments" className="block px-4 py-2 text-white hover:bg-indigo-700">Apartments</Link>
+                    <Link to="/contact" className="block px-4 py-2 text-white hover:bg-indigo-700">Contact</Link>
+                    <Link to="/about" className="block px-4 py-2 text-white hover:bg-indigo-700">About</Link>
                 </div>
                 <div className="flex items-center">
                     <div className="md:hidden">
@@ -53,7 +53,7 @@ const Navbar = () => {
                         </button>
                     </div>
                     <div className="relative">
-                        <button onClick={toggleDropdown} className=" mx-2 ocus:outline-none transition duration-500 ease-in-out transform hover:scale-110">
+                        <button onClick={toggleDropdown} className="mx-2 focus:outline-none transition duration-500 ease-in-out transform hover:scale-110">
                             <div>
                                 {user ? (
                                     <img src={user?.photoURL} alt="Profile" className="w-10 h-10 rounded-full" />
@@ -94,13 +94,11 @@ const Navbar = () => {
                 transition={{ duration: 0.3 }}
                 className="md:hidden overflow-hidden"
             >
-                <div className="bg-gray-800">
-                    <Link to="/" className="block px-4 py-2 text-white hover:bg-gray-700">Home</Link>
-                    <Link to="/apartments" className="block px-4 py-2 text-white hover:bg-gray-700">Apartments</Link>
-                    <Link to="/contact" className="block px-4 py-2 text-white hover:bg-gray-700">Contact</Link>
-                    <Link to="/about" className="block px-4 py-2 text-white hover:bg-gray-700">About</Link>
-
-
+                <div className="bg-indigo-800">
+                    <Link to="/" className="block px-4 py-2 text-white hover:bg-indigo-700">Home</Link>
+                    <Link to="/apartments" className="block px-4 py-2 text-white hover:bg-indigo-700">Apartments</Link>
+                    <Link to="/contact" className="block px-4 py-2 text-white hover:bg-indigo-700">Contact</Link>
+                    <Link to="/about" className="block px-4 py-2 text-white hover:bg-indigo-700">About</Link>
                 </div>
             </motion.div>
         </motion.nav>
