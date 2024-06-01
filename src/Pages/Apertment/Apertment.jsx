@@ -31,7 +31,7 @@ const Apartments = () => {
         }
 
         try {
-            // Check if user already has an agreement
+      
             const checkResponse = await axios.get(`http://localhost:8000/agreement/${user.email}`);
             if (checkResponse.data.agreement) {
                 Swal.fire({

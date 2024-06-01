@@ -1,79 +1,139 @@
 import { createContext, useEffect, useState } from "react";
 import { GoogleAuthProvider, createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from "firebase/auth";
 import { app } from "../firebase/firebase.config";
-import useAxiosPublic from "../Components/hooks/useAxiosPublic";
- 
-
+import axios from 'axios'
 export const AuthContext = createContext(null);
 
 const auth = getAuth(app);
+const googleProvider = new GoogleAuthProvider();
 
 const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
-    const googleProvider = new GoogleAuthProvider();
-    const axiosPublic = useAxiosPublic();
 
-    const createUser = (email, password) => {
+    const createUser = async (email, password) => {
         setLoading(true);
-        return createUserWithEmailAndPassword(auth, email, password)
-    }
+        try {
+            await createUserWithEmailAndPassword(auth, email, password);
+        } catch (error) {
+            console.error("Error creating user:", error);
+            throw error;
+        } finally {
+            setLoading(false);
+        }
+    };
 
-    const signIn = (email, password) => {
+    const signIn = async (email, password) => {
         setLoading(true);
-        return signInWithEmailAndPassword(auth, email, password);
-    }
+        try {
+            await signInWithEmailAndPassword(auth, email, password);
+        } catch (error) {
+            console.error("Error signing in:", error);
+            throw error;
+        } finally {
+            setLoading(false);
+        }
+    };
 
-    const signInWithGoogle = () => {
+    const googleSignIn = async () => {
         setLoading(true);
-        return signInWithPopup(auth, googleProvider);
-    }
+        try {
+            await signInWithPopup(auth, googleProvider);
+        } catch (error) {
+            console.error("Error signing in with Google:", error);
+            throw error;
+        } finally {
+            setLoading(false);
+        }
+    };
 
-    const logOut = () => {
+    const logOut = async () => {
         setLoading(true);
-        return signOut(auth);
-    }
+        try {
+            await axios.get(`${import.meta.env.VITE_API_URL}/logout`, {
+                withCredentials: true,
+            });
+            await signOut(auth);
+        } catch (error) {
+            console.error("Error logging out:", error);
+            throw error;
+        } finally {
+            setLoading(false);
+        }
+    };
 
-    const updateUserProfile = (name, photo) => {
-        return updateProfile(auth.currentUser, {
-            displayName: name, photoURL: photo
-        });
-    }
+    const updateUserProfile = async (name, photo) => {
+        try {
+            await updateProfile(auth.currentUser, {
+                displayName: name,
+                photoURL: photo,
+            });
+        } catch (error) {
+            console.error("Error updating user profile:", error);
+            throw error;
+        }
+    };
+
+    const getToken = async (email) => {
+        try {
+            const { data } = await axios.post(
+                `${import.meta.env.VITE_API_URL}/jwt`,
+                { email },
+                { withCredentials: true }
+            );
+            return data;
+        } catch (error) {
+            console.error("Error getting token:", error);
+            throw error;
+        }
+    };
+
+    const saveUser = async (user) => {
+        try {
+            const currentUser = {
+                email: user?.email,
+                role: 'user',
+                status: 'Verified',
+            };
+            const { data } = await axios.put(
+                `${import.meta.env.VITE_API_URL}/user`,
+                currentUser
+            );
+            return data;
+        } catch (error) {
+            console.error("Error saving user:", error);
+            throw error;
+        }
+    };
 
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, currentUser => {
+        const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
             setUser(currentUser);
             if (currentUser) {
-                // get token and store client
-                const userInfo = { email: currentUser.email };
-                axiosPublic.post('/jwt', userInfo)
-                    .then(res => {
-                        if (res.data.token) {
-                            localStorage.setItem('access-token', res.data.token);
-                            setLoading(false);
-                        }
-                    })
-            }
-            else {
+                try {
+                    const token = await getToken(currentUser.email);
+                    await saveUser(currentUser);
+                    localStorage.setItem('access-token', token);
+                } catch (error) {
+                    console.error("Error handling auth state change:", error);
+                }
+            } else {
                 localStorage.removeItem('access-token');
-                setLoading(false);
             }
-
+            setLoading(false);
         });
-        return () => {
-            return unsubscribe();
-        }
-    }, [axiosPublic])
+        return () => unsubscribe();
+    }, []);
 
     const authInfo = {
         user,
         loading,
         createUser,
         signIn,
-        signInWithGoogle,
+        googleSignIn,
         logOut,
         updateUserProfile
-    }
+    };
 
     return (
         <AuthContext.Provider value={authInfo}>
