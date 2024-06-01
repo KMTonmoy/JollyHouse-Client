@@ -1,0 +1,98 @@
+[
+    {
+        "id": 1,
+        "image": "https://example.com/apartment1.jpg",
+        "floorNo": 2,
+        "blockName": "A",
+        "apartmentNo": 101,
+        "rent": 1500
+    },
+    {
+        "id": 2,
+        "image": "https://example.com/apartment2.jpg",
+        "floorNo": 3,
+        "blockName": "B",
+        "apartmentNo": 201,
+        "rent": 1700
+    },
+    {
+        "id": 3,
+        "image": "https://example.com/apartment3.jpg",
+        "floorNo": 1,
+        "blockName": "C",
+        "apartmentNo": 301,
+        "rent": 1300
+    },
+    {
+        "id": 4,
+        "image": "https://example.com/apartment4.jpg",
+        "floorNo": 4,
+        "blockName": "A",
+        "apartmentNo": 102,
+        "rent": 1600
+    },
+    {
+        "id": 5,
+        "image": "https://example.com/apartment5.jpg",
+        "floorNo": 2,
+        "blockName": "B",
+        "apartmentNo": 202,
+        "rent": 1800
+    },
+    {
+        "id": 6,
+        "image": "https://example.com/apartment6.jpg",
+        "floorNo": 3,
+        "blockName": "C",
+        "apartmentNo": 302,
+        "rent": 1400
+    },
+    {
+        "id": 7,
+        "image": "https://example.com/apartment7.jpg",
+        "floorNo": 1,
+        "blockName": "A",
+        "apartmentNo": 103,
+        "rent": 1700
+    },
+    {
+        "id": 8,
+        "image": "https://example.com/apartment8.jpg",
+        "floorNo": 4,
+        "blockName": "B",
+        "apartmentNo": 203,
+        "rent": 1900
+    },
+    {
+        "id": 9,
+        "image": "https://example.com/apartment9.jpg",
+        "floorNo": 2,
+        "blockName": "C",
+        "apartmentNo": 303,
+        "rent": 1500
+    },
+    {
+        "id": 10,
+        "image": "https://example.com/apartment10.jpg",
+        "floorNo": 3,
+        "blockName": "A",
+        "apartmentNo": 104,
+        "rent": 1800
+    },
+    {
+        "id": 11,
+        "image": "https://example.com/apartment11.jpg",
+        "floorNo": 1,
+        "blockName": "B",
+        "apartmentNo": 204,
+        "rent": 2000
+    },
+    {
+        "id": 12,
+        "image": "https://example.com/apartment12.jpg",
+        "floorNo": 4,
+        "blockName": "C",
+        "apartmentNo": 304,
+        "rent": 1600
+    }
+]
