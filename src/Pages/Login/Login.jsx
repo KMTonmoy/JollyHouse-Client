@@ -26,19 +26,21 @@ const Login = () => {
         try {
             await signInWithGoogle();
             Swal.fire({
-                title: 'User Login Successful.',
-                showClass: {
-                    popup: 'animate__animated animate__fadeInDown'
-                },
-                hideClass: {
-                    popup: 'animate__animated animate__fadeOutUp'
-                }
+                title: 'Login Successful',
+                text: 'You have successfully logged in.',
+                icon: 'success',
+                confirmButtonText: 'OK'
             });
             setTimeout(() => {
                 navigate(from, { replace: true });
             }, 4000);
         } catch (error) {
-            setError(error.message);
+            Swal.fire({
+                title: 'Login Failed',
+                text: 'Invalid email or password. Please try again.',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
         }
     };
 

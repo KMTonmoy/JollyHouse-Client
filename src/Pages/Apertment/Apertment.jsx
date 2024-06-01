@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import { AuthContext } from '../../providers/AuthProvider';
 
 const Apartments = () => {
@@ -8,12 +9,12 @@ const Apartments = () => {
     const [apartments, setApartments] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const apartmentsPerPage = 6;
+    const navigate = useNavigate();
 
     useEffect(() => {
-
         const fetchApartments = async () => {
             try {
-                const response = await axios.get('http://localhost:8000/apertment');
+                const response = await axios.get('http://localhost:8000/apartments');
                 setApartments(response.data);
             } catch (error) {
                 console.error('Error fetching apartments:', error);
@@ -25,25 +26,50 @@ const Apartments = () => {
 
     const handleAgreement = async (apartment) => {
         if (!user) {
-            history.push('/login');
+            navigate('/login');
             return;
         }
 
-        const agreementData = {
-            userName: user.name,
-            userEmail: user.email,
-            floorNo: apartment.floorNo,
-            blockName: apartment.blockName,
-            apartmentNo: apartment.apartmentNo,
-            rent: apartment.rent,
-            status: 'pending',
-        };
-
         try {
-            await axios.post('/api/agreements', agreementData);
-            alert('Agreement submitted successfully!');
+            // Check if user already has an agreement
+            const checkResponse = await axios.get(`http://localhost:8000/agreement/${user.email}`);
+            if (checkResponse.data.agreement) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'You have already applied for an apartment agreement.',
+                });
+                return;
+            }
+
+            const agreementData = {
+                userName: user.displayName,
+                userEmail: user.email,
+                floorNo: apartment.floorNo,
+                blockName: apartment.blockName,
+                apartmentNo: apartment.apartmentNo,
+                rent: apartment.rent,
+                status: 'pending',
+            };
+
+            const response = await axios.post('http://localhost:8000/agreement', agreementData, {
+                headers: {
+                    Authorization: `Bearer ${user.token}`,
+                },
+            });
+            if (response.data.success) {
+                Swal.fire({
+                    title: "Agreement Submitted",
+                    text: "Your agreement has been submitted successfully.",
+                    icon: "success",
+                    confirmButtonText: 'OK'
+                });
+            } else {
+                Swal.fire('Error', response.data.message, 'error');
+            }
         } catch (error) {
             console.error('Error submitting agreement:', error);
+            Swal.fire('Error', 'Error submitting agreement. Please try again.', 'error');
         }
     };
 
@@ -64,14 +90,12 @@ const Apartments = () => {
                         <p className="text-lg font-semibold">Block Name: {apartment.blockName}</p>
                         <p className="text-lg font-semibold">Apartment No: {apartment.apartmentNo}</p>
                         <p className="text-lg font-semibold">Rent: ${apartment.rent}</p>
-                        <Link to={`/apartments/${apartment._id}`}>
-                            <button
-                                className="mt-4 inline-block px-6 py-3 text-lg font-semibold text-white bg-blue-500 rounded-md shadow-md transition duration-300 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
-                            >
-                                Details
-                            </button>
-                        </Link>
-
+                        <button
+                            onClick={() => handleAgreement(apartment)}
+                            className="mt-4 inline-block px-6 py-3 text-lg font-semibold text-white bg-blue-500 rounded-md shadow-md transition duration-300 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+                        >
+                            Agreement
+                        </button>
                     </div>
                 ))}
             </div>
