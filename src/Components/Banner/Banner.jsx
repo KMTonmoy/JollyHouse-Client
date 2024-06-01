@@ -10,7 +10,7 @@ const Banner = () => {
     const [slides, setSlides] = useState([]);
 
     useEffect(() => {
-        fetch(`http://localhost:8000/banner`)
+        fetch(`http://localhost:8000/banners`)
             .then(response => response.json())
             .then(data => setSlides(data))
             .catch(error => console.error('Error fetching data:', error));

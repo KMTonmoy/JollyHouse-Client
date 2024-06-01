@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLoaderData } from 'react-router-dom';
+
 
 const ApartmentDetails = () => {
     //     const data = useLoaderData()
@@ -11,7 +11,7 @@ const ApartmentDetails = () => {
         blockName: 'Block A',
         apartmentNo: 302,
         rent: 1500,
-        // Add more details as needed
+
     };
 
     return (
