@@ -16,12 +16,14 @@ const Banner = () => {
             .catch(error => console.error('Error fetching data:', error));
     }, []);
 
+    const shouldLoop = slides.length > 2; // Assuming at least 3 slides are needed for looping
+
     return (
         <div className='container px-2 rounded-2xl py-10 mx-auto'>
             <Swiper
                 spaceBetween={30}
                 centeredSlides={true}
-                loop={true}
+                loop={shouldLoop}
                 autoplay={{
                     delay: 5000,
                     disableOnInteraction: false,

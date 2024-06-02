@@ -4,7 +4,8 @@ import About from '../../Components/About/About';
 import Coupon from '../../Components/Cupon/Cupon';
 import Location from '../../Components/Location/Location';
 import FAQ from '../../Components/Faq/Faq';
-import Apartments from '../Apertment/Apertment';
+import Apartments from '../../Components/Apertment/Apertment';
+
 
 
 const Home = () => {

@@ -20,9 +20,36 @@ const Signup = () => {
         setLoading,
     } = useAuth();
 
+
+    const handelGoogleSignIn = async () => {
+
+        try {
+            await signInWithGoogle()
+            Swal.fire({
+                title: 'Signup Successful',
+                text: 'You have successfully signed up.',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            });
+            setTimeout(() => {
+                navigate('/');
+            }, 4000);
+        } catch (err) {
+            Swal.fire({
+                title: 'Signup Failed',
+                text: err.message,
+                icon: 'error',
+                confirmButtonText: 'OK'
+            });
+        }
+
+
+    }
+
+
     const handleSignup = async (e) => {
         e.preventDefault();
-         
+
         try {
             const imageUrl = await imageUpload(image);
             await createUser(email, password);
@@ -41,7 +68,7 @@ const Signup = () => {
                 icon: 'error',
                 confirmButtonText: 'OK'
             });
-        } 
+        }
     };
 
     const togglePasswordVisibility = () => {
@@ -134,7 +161,7 @@ const Signup = () => {
                 </form>
                 <div className="flex justify-center mt-4">
                     <button
-                        onClick={() => signInWithGoogle()}
+                        onClick={() => handelGoogleSignIn()}
                         className="flex items-center px-4 py-2 text-lg font-semibold text-white bg-red-500 rounded-md hover:bg-red-600 focus:outline-none focus:bg-red-600"
                     >
                         <FaGoogle className="mr-2" />

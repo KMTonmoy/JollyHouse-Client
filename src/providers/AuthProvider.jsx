@@ -1,7 +1,8 @@
 import { createContext, useEffect, useState } from "react";
 import { GoogleAuthProvider, createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from "firebase/auth";
 import { app } from "../firebase/firebase.config";
-import axios from 'axios'
+import axios from 'axios';
+
 export const AuthContext = createContext(null);
 
 const auth = getAuth(app);
@@ -35,7 +36,7 @@ const AuthProvider = ({ children }) => {
         }
     };
 
-    const googleSignIn = async () => {
+    const signInWithGoogle = async () => {
         setLoading(true);
         try {
             await signInWithPopup(auth, googleProvider);
@@ -81,7 +82,7 @@ const AuthProvider = ({ children }) => {
                 { email },
                 { withCredentials: true }
             );
-            return data;
+            return data.token;
         } catch (error) {
             console.error("Error getting token:", error);
             throw error;
@@ -114,11 +115,15 @@ const AuthProvider = ({ children }) => {
                     const token = await getToken(currentUser.email);
                     await saveUser(currentUser);
                     localStorage.setItem('access-token', token);
+
+                    // Set Axios default headers
+                    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
                 } catch (error) {
                     console.error("Error handling auth state change:", error);
                 }
             } else {
                 localStorage.removeItem('access-token');
+                delete axios.defaults.headers.common['Authorization'];
             }
             setLoading(false);
         });
@@ -130,7 +135,7 @@ const AuthProvider = ({ children }) => {
         loading,
         createUser,
         signIn,
-        googleSignIn,
+        signInWithGoogle,
         logOut,
         updateUserProfile
     };

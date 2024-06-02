@@ -9,7 +9,6 @@ const Apartments = () => {
     const [apartments, setApartments] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [loading, setLoading] = useState(true);
-    const [searchTerm, setSearchTerm] = useState('');
     const apartmentsPerPage = 6;
     const navigate = useNavigate();
 
@@ -77,14 +76,7 @@ const Apartments = () => {
 
     const indexOfLastApartment = currentPage * apartmentsPerPage;
     const indexOfFirstApartment = indexOfLastApartment - apartmentsPerPage;
-    const currentApartments = apartments
-        .filter(apartment =>
-            apartment.floorNo.toString().includes(searchTerm) ||
-            apartment.blockName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            apartment.apartmentNo.toString().includes(searchTerm) ||
-            apartment.rent.toString().includes(searchTerm)
-        )
-        .slice(indexOfFirstApartment, indexOfLastApartment);
+    const currentApartments = apartments.slice(indexOfFirstApartment, indexOfLastApartment);
 
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
@@ -95,39 +87,27 @@ const Apartments = () => {
     return (
         <div className="container mx-auto px-4 py-8">
             <h2 className="text-3xl font-bold text-center mb-8">Available Apartments</h2>
-            <div className="flex justify-center my-20">
-                <input
-                    type="text"
-                    placeholder="Search by floor, block, apartment, or rent..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 w-full md:w-1/2"
-                />
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                {currentApartments.map((apartment, index) => (
+                    <div key={index} className="bg-white rounded-lg shadow-lg p-6">
+                        <img src={apartment.image} alt={`Apartment ${apartment.apartmentNo}`} className="w-full h-48 object-cover rounded-t-lg mb-4" />
+                        <p className="text-lg font-semibold">Floor No: {apartment.floorNo}</p>
+                        <p className="text-lg font-semibold">Block Name: {apartment.blockName}</p>
+                        <p className="text-lg font-semibold">Apartment No: {apartment.apartmentNo}</p>
+                        <p className="text-lg font-semibold">Rent: ${apartment.rent}</p>
+                        <button
+                            onClick={() => handleAgreement(apartment)}
+                            className="mt-4 inline-block px-6 py-3 text-lg font-semibold text-white bg-blue-500 rounded-md shadow-md transition duration-300 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+                        >
+                            Agreement
+                        </button>
+                    </div>
+                ))}
             </div>
-            {currentApartments.length === 0 ? (
-                <div className="text-center text-gray-500">No apartments found.</div>
-            ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {currentApartments.map((apartment, index) => (
-                        <div key={index} className="bg-white rounded-lg shadow-lg p-6">
-                            <img src={apartment.image} alt={`Apartment ${apartment.apartmentNo}`} className="w-full h-48 object-cover rounded-t-lg mb-4" />
-                            <p className="text-lg font-semibold">Floor No: {apartment.floorNo}</p>
-                            <p className="text-lg font-semibold">Block Name: {apartment.blockName}</p>
-                            <p className="text-lg font-semibold">Apartment No: {apartment.apartmentNo}</p>
-                            <p className="text-lg font-semibold">Rent: ${apartment.rent}</p>
-                            <button
-                                onClick={() => handleAgreement(apartment)}
-                                className="mt-4 inline-block px-6 py-3 text-lg font-semibold text-white bg-blue-500 rounded-md shadow-md transition duration-300 hover:bg-blue-600 focus:outline-none">
-                                Agreement
-                            </button>
-                        </div>
-                    ))}
-                </div>
-            )}
             <div className="mt-8 flex justify-center">
                 <Pagination
                     apartmentsPerPage={apartmentsPerPage}
-                    totalApartments={currentApartments.length}
+                    totalApartments={apartments.length}
                     paginate={paginate}
                 />
             </div>
@@ -149,7 +129,8 @@ const Pagination = ({ apartmentsPerPage, totalApartments, paginate }) => {
                     <li key={number} className="mx-2">
                         <button
                             onClick={() => paginate(number)}
-                            className="px-4 py-2 bg-blue-500 text-white rounded-md shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+                            className="px-4 py-2 bg-blue-500 text-white rounded-md shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+                        >
                             {number}
                         </button>
                     </li>
