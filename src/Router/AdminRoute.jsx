@@ -1,16 +1,23 @@
-// import { Navigate } from 'react-router-dom'
-// import useRole from '../hooks/useRole'
-// import PropTypes from 'prop-types'
-// const AdminRoute = ({ children }) => {
-//   const [role, isLoading] = useRole()
+import { Navigate, useLocation } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
+import useAdmin from "../hooks/useAdmin";
 
-//   if (isLoading) return ('Loading.......')
-//   if (role === 'admin') return children
-//   return <Navigate to='/dashboard' />
-// }
 
-// export default AdminRoute
+const AdminRoute = ({ children }) => {
+    const { user, loading } = useAuth();
+    const [isAdmin, isAdminLoading] = useAdmin();
+    const location = useLocation();
 
-// AdminRoute.propTypes = {
-//   children: PropTypes.element,
-// }
+    if (loading || isAdminLoading) {
+        return <progress className="progress w-56"></progress>
+    }
+
+    if (user && isAdmin) {
+        return children;
+    }
+
+    return <Navigate to="/" state={{ from: location }} replace></Navigate>
+
+};
+
+export default AdminRoute;

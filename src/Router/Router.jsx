@@ -6,6 +6,7 @@ import DashboardLayout from "../Layout/DashboardLayout";
 import Signup from "../Pages/Signup/Signup";
 import Apartments from "../Pages/Apertment/Apertment";
 import PrivateRoute from "./PrivateRoute";
+import UserHome from "../Pages/Dashboard/UserHome";
 
 
 export const router = createBrowserRouter([
@@ -34,6 +35,12 @@ export const router = createBrowserRouter([
     },
     {
         path: '/dashboard',
-        element: <DashboardLayout />
+        element: <PrivateRoute><DashboardLayout /></PrivateRoute>,
+        children: [
+            {
+                path: '/dashboard',
+                element: <UserHome />
+            },
+        ]
     }
 ]);

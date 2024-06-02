@@ -13,17 +13,17 @@ const Apartments = () => {
     const apartmentsPerPage = 6;
     const navigate = useNavigate();
 
-    useEffect(() => {
-        const fetchApartments = async () => {
-            try {
-                const response = await axios.get('http://localhost:8000/apartments');
-                setApartments(response.data);
-                setLoading(false);
-            } catch (error) {
-                console.error('Error fetching apartments:', error);
-            }
-        };
+    const fetchApartments = async () => {
+        try {
+            const response = await axios.get('http://localhost:8000/apartments');
+            setApartments(response.data);
+            setLoading(false);
+        } catch (error) {
+            console.error('Error fetching apartments:', error);
+        }
+    };
 
+    useEffect(() => {
         fetchApartments();
     }, []);
 
@@ -51,7 +51,7 @@ const Apartments = () => {
                 blockName: apartment.blockName,
                 apartmentNo: apartment.apartmentNo,
                 rent: apartment.rent,
-                status: 'pending',
+               
             };
 
             const response = await axios.post('http://localhost:8000/agreement', agreementData, {
@@ -59,6 +59,7 @@ const Apartments = () => {
                     Authorization: `Bearer ${user.token}`,
                 },
             });
+
             if (response.data.success) {
                 Swal.fire({
                     title: "Agreement Submitted",
@@ -66,6 +67,8 @@ const Apartments = () => {
                     icon: "success",
                     confirmButtonText: 'OK'
                 });
+                // Refetch the apartments list
+                fetchApartments();
             } else {
                 Swal.fire('Error', response.data.message, 'error');
             }
@@ -79,10 +82,11 @@ const Apartments = () => {
     const indexOfFirstApartment = indexOfLastApartment - apartmentsPerPage;
     const currentApartments = apartments
         .filter(apartment =>
-            apartment.floorNo.toString().includes(searchTerm) ||
-            apartment.blockName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            apartment.apartmentNo.toString().includes(searchTerm) ||
-            apartment.rent.toString().includes(searchTerm)
+            (apartment.floorNo.toString().includes(searchTerm) ||
+                apartment.blockName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                apartment.apartmentNo.toString().includes(searchTerm) ||
+                apartment.rent.toString().includes(searchTerm)) &&
+            apartment.status !== 'requested'
         )
         .slice(indexOfFirstApartment, indexOfLastApartment);
 
