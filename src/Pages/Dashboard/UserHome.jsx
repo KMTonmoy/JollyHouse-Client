@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../providers/AuthProvider';
 import Box from '../../Components/Dashboard/AdminInfoBox/Box';
+import ManageMembers from './ManageMembur';
 
 const UserHome = () => {
     const { user } = useContext(AuthContext);
@@ -31,6 +32,13 @@ const UserHome = () => {
             {role === 'admin' && (
                 <div className="mt-8">
                     <Box />
+                    <div>
+                        <div className='mt-20'>
+                            <h1 className='text-center text-2xl font-bold'>Quick Access</h1>
+                            <ManageMembers />
+
+                        </div>
+                    </div>
                 </div>
             )}
         </div>

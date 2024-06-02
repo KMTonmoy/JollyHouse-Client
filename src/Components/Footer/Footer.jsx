@@ -16,7 +16,7 @@ const Footer = () => {
                 <div className="flex flex-col md:flex-row justify-between">
                     <div className="w-full md:w-1/3 mb-6 md:mb-0">
                         <h3 className="text-lg font-semibold mb-2">Contact Us</h3>
-                        <p className="text-sm">Email: <a href="mailto:info@bmscompany.com" className="text-blue-400 hover:text-blue-300">info@bmscompany.com</a></p>
+                        <p className="text-sm">Email: <a href="mailto:support@jollyhome.com" className="text-blue-400 hover:text-blue-300">support@jollyhome.com</a></p>
                         <p className="text-sm">Phone: (+123) 456-7890 </p>
                     </div>
                     <div className="w-full md:w-1/3 mb-6 md:mb-0">

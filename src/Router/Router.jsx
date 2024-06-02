@@ -8,6 +8,8 @@ import Apartments from "../Pages/Apertment/Apertment";
 import PrivateRoute from "./PrivateRoute";
 import UserHome from "../Pages/Dashboard/UserHome";
 import ManageMembers from "../Pages/Dashboard/ManageMembur";
+import ContactPage from "../Pages/Contact/Contact";
+import About from "../Components/About/About";
 
 
 export const router = createBrowserRouter([
@@ -31,6 +33,14 @@ export const router = createBrowserRouter([
                 path: "/apartments",
                 element: <Apartments />
             },
+            {
+                path: "/contact",
+                element: <PrivateRoute><ContactPage /></PrivateRoute>
+            },
+            {
+                path: "/about",
+                element:  <About></About>,
+            },
 
         ]
     },
@@ -46,7 +56,7 @@ export const router = createBrowserRouter([
                 path: 'manage-members',
                 element: <ManageMembers />
             },
-       
+
         ]
     }
 ]);

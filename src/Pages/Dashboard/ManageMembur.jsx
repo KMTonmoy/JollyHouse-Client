@@ -15,7 +15,8 @@ const ManageMembers = () => {
         fetch(`http://localhost:8000/users`)
             .then(res => res.json())
             .then(data => {
-                setMembers(data);
+                const filteredMembers = data.filter(member => member.role === 'member');
+                setMembers(filteredMembers);
                 setLoading(false);
             })
             .catch(error => {
@@ -26,14 +27,32 @@ const ManageMembers = () => {
     };
 
     const removeMember = (memberId) => {
-        // Implement logic to remove member
+        fetch(`http://localhost:8000/users/${memberId}/role`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ role: 'user' }),
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    // Update the local state to reflect the change
+                    setMembers(members.filter(member => member._id !== memberId));
+                } else {
+                    console.error('Error updating member role:', data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error updating member role:', error);
+            });
     };
 
     const { user } = useContext(AuthContext);
 
     // Animation transitions for table rows
     const transitions = useTransition(members, {
-        keys: member => member.id,
+        keys: member => member._id, // Use _id instead of id
         from: { opacity: 0, transform: 'translateX(-100%)' },
         enter: { opacity: 1, transform: 'translateX(0%)' },
         leave: { opacity: 0, transform: 'translateX(-100%)' },
@@ -58,11 +77,11 @@ const ManageMembers = () => {
                         <tbody>
                             {transitions((style, item) =>
                                 item ? (
-                                    <animated.tr key={item.id} style={style}>
+                                    <animated.tr key={item._id} style={style}>
                                         <td className="p-[3px] text-xs md:text-xl md:p-4 border border-gray-300">{item.name}</td>
                                         <td className="p-[3px] md:p-4 border border-gray-300 text-xs md:text-xl md:w-full">{item.email}</td>
                                         <td className="p-[3px] md:p-4 border border-gray-300">
-                                            <button className="px-3 md:px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600" onClick={() => removeMember(item.id)}>Remove</button>
+                                            <button className="px-3 md:px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600" onClick={() => removeMember(item._id)}>Remove</button>
                                         </td>
                                     </animated.tr>
                                 ) : null
