@@ -43,6 +43,11 @@ const Apartments = () => {
                 return;
             }
 
+            const currentDate = new Date();
+            const year = currentDate.getFullYear();
+            const month = String(currentDate.getMonth() + 1).padStart(2, '0');  // getMonth() is zero-based
+            const day = String(currentDate.getDate()).padStart(2, '0');
+
             const agreementData = {
                 userName: user.displayName,
                 userEmail: user.email,
@@ -51,6 +56,7 @@ const Apartments = () => {
                 apartmentNo: apartment.apartmentNo,
                 rent: apartment.rent,
                 status: 'pending',
+                date: `${year}/${month}/${day}`,
             };
 
             const response = await axios.post('http://localhost:8000/agreement', agreementData, {

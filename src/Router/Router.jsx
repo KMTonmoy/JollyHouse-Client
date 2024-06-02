@@ -10,6 +10,8 @@ import UserHome from "../Pages/Dashboard/UserHome";
 import ManageMembers from "../Pages/Dashboard/ManageMembur";
 import ContactPage from "../Pages/Contact/Contact";
 import About from "../Components/About/About";
+import MakeAnnouncement from "../Pages/Dashboard/MakeAnouncement";
+import AgreementReq from "../Pages/Dashboard/AgreementReq";
 
 
 export const router = createBrowserRouter([
@@ -39,7 +41,7 @@ export const router = createBrowserRouter([
             },
             {
                 path: "/about",
-                element:  <About></About>,
+                element: <About></About>,
             },
 
         ]
@@ -55,6 +57,14 @@ export const router = createBrowserRouter([
             {
                 path: 'manage-members',
                 element: <ManageMembers />
+            },
+            {
+                path: 'make-announcement',
+                element: <MakeAnnouncement />
+            },
+            {
+                path: 'agreement-requests',
+                element: <AgreementReq />
             },
 
         ]

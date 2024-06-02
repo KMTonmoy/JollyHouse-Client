@@ -7,7 +7,7 @@ import { IoMdClose } from "react-icons/io";
 
 const Sidebar = () => {
   const { user } = useContext(AuthContext);
-  const email = user?.email || ''; // Check if user is defined
+  const email = user?.email || '';
   const [data, setData] = useState({});
   const [isOpen, setIsOpen] = useState(false); // State to manage sidebar open/close
 
@@ -34,7 +34,7 @@ const Sidebar = () => {
       <AnimatePresence>
         {(isOpen || window.innerWidth >= 768) && (
           <motion.div
-            className="fixed md:relative top-0 left-0 md:h-full h-[100vh] w-64 bg-gradient-to-b from-gray-800 to-gray-900 py-6 text-white text-center shadow-xl z-20"
+            className="fixed md:relative top-0 left-0 md:h-full h-[100vh] w-64 bg-gradient-to-b from-purple-900 to-purple-600 py-6 text-white text-center shadow-xl z-20"
             initial={{ x: window.innerWidth < 768 ? -300 : 0 }}
             animate={{ x: 0 }}
             exit={{ x: window.innerWidth < 768 ? -300 : 0 }}
@@ -52,48 +52,48 @@ const Sidebar = () => {
             )}
             <ul className="menu p-4 space-y-4">
               <li>
-                <Link className="block py-2 px-4 rounded bg-gray-700 hover:bg-gray-600 transition-colors" to="/">Home</Link>
+                <Link className="block py-2 px-4 rounded text-white bg-purple-700 hover:bg-purple-800 transition-colors" to="/">Home</Link>
               </li>
               <li>
-                <Link className="block py-2 px-4 rounded bg-gray-700 hover:bg-gray-600 transition-colors" to="/dashboard"> <spam className='capitalize'>{role}</spam> Home</Link>
+                <Link className="block py-2 px-4 rounded text-white bg-purple-700 hover:bg-purple-800 transition-colors" to="/dashboard"> <span className='capitalize'>{role}</span> Home</Link>
               </li>
 
               {role === 'admin' && (
                 <>
                   <li>
-                    <Link className="block py-2 px-4 rounded bg-gray-700 hover:bg-gray-600 transition-colors" to="/dashboard/manage-members">Manage Members</Link>
+                    <Link className="block py-2 px-4 rounded text-white bg-purple-700 hover:bg-purple-800 transition-colors" to="/dashboard/manage-members">Manage Members</Link>
                   </li>
                   <li>
-                    <Link className="block py-2 px-4 rounded bg-gray-700 hover:bg-gray-600 transition-colors" to="/dashboard/make-announcement">Make Announcement</Link>
+                    <Link className="block py-2 px-4 rounded text-white bg-purple-700 hover:bg-purple-800 transition-colors" to="/dashboard/make-announcement">Make Announcement</Link>
                   </li>
                   <li>
-                    <Link className="block py-2 px-4 rounded bg-gray-700 hover:bg-gray-600 transition-colors" to="/dashboard/agreement-requests">Agreement Requests</Link>
+                    <Link className="block py-2 px-4 rounded text-white bg-purple-700 hover:bg-purple-800 transition-colors" to="/dashboard/agreement-requests">Agreement Requests</Link>
                   </li>
                   <li>
-                    <Link className="block py-2 px-4 rounded bg-gray-700 hover:bg-gray-600 transition-colors" to="/dashboard/manage-coupons">Manage Coupons</Link>
+                    <Link className="block py-2 px-4 rounded text-white bg-purple-700 hover:bg-purple-800 transition-colors" to="/dashboard/manage-coupons">Manage Coupons</Link>
                   </li>
                 </>
               )}
               {role === 'member' && (
                 <>
                   <li>
-                    <Link className="block py-2 px-4 rounded bg-gray-700 hover:bg-gray-600 transition-colors" to="/dashboard/make-payment">Make Payment</Link>
+                    <Link className="block py-2 px-4 rounded text-white bg-purple-700 hover:bg-purple-800 transition-colors" to="/dashboard/make-payment">Make Payment</Link>
                   </li>
                   <li>
-                    <Link className="block py-2 px-4 rounded bg-gray-700 hover:bg-gray-600 transition-colors" to="/dashboard/payment-history">Payment History</Link>
+                    <Link className="block py-2 px-4 rounded text-white bg-purple-700 hover:bg-purple-800 transition-colors" to="/dashboard/payment-history">Payment History</Link>
                   </li>
                   <li>
-                    <Link className="block py-2 px-4 rounded bg-gray-700 hover:bg-gray-600 transition-colors" to="/dashboard/announcements">Announcements</Link>
+                    <Link className="block py-2 px-4 rounded text-white bg-purple-700 hover:bg-purple-800 transition-colors" to="/dashboard/announcements">Announcements</Link>
                   </li>
                 </>
               )}
               {role === 'user' && (
                 <>
                   <li>
-                    <Link className="block py-2 px-4 rounded bg-gray-700 hover:bg-gray-600 transition-colors" to="/dashboard/my-profile">My Profile</Link>
+                    <Link className="block py-2 px-4 rounded text-white bg-purple-700 hover:bg-purple-800 transition-colors" to="/dashboard/my-profile">My Profile</Link>
                   </li>
                   <li>
-                    <Link className="block py-2 px-4 rounded bg-gray-700 hover:bg-gray-600 transition-colors" to="/dashboard/announcements">Announcements</Link>
+                    <Link className="block py-2 px-4 rounded text-white bg-purple-700 hover:bg-purple-800 transition-colors" to="/dashboard/announcements">Announcements</Link>
                   </li>
                 </>
               )}
@@ -101,8 +101,6 @@ const Sidebar = () => {
           </motion.div>
         )}
       </AnimatePresence>
-      {/* Main content area */}
-    
     </div>
   );
 };
