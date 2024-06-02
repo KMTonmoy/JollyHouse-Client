@@ -34,13 +34,13 @@ const Sidebar = () => {
       <AnimatePresence>
         {(isOpen || window.innerWidth >= 768) && (
           <motion.div
-            className="fixed md:relative top-0 left-0 w-64 min-h-screen bg-gradient-to-b from-gray-800 to-gray-900 py-6 text-white text-center shadow-xl z-20"
+            className="fixed md:relative top-0 left-0 md:h-full h-[100vh] w-64 bg-gradient-to-b from-gray-800 to-gray-900 py-6 text-white text-center shadow-xl z-20"
             initial={{ x: window.innerWidth < 768 ? -300 : 0 }}
             animate={{ x: 0 }}
             exit={{ x: window.innerWidth < 768 ? -300 : 0 }}
             transition={{ ease: "easeOut", duration: 0.3 }}
           >
-            
+
             <button
               className="absolute top-4 right-4 text-3xl md:hidden focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
               onClick={() => setIsOpen(!isOpen)}
@@ -54,6 +54,10 @@ const Sidebar = () => {
               <li>
                 <Link className="block py-2 px-4 rounded bg-gray-700 hover:bg-gray-600 transition-colors" to="/">Home</Link>
               </li>
+              <li>
+                <Link className="block py-2 px-4 rounded bg-gray-700 hover:bg-gray-600 transition-colors" to="/dashboard"> <spam className='capitalize'>{role}</spam> Home</Link>
+              </li>
+
               {role === 'admin' && (
                 <>
                   <li>
@@ -98,9 +102,7 @@ const Sidebar = () => {
         )}
       </AnimatePresence>
       {/* Main content area */}
-      <div className="flex-1 p-6 md:ml-64 mt-16 md:mt-0">
-        {/* Content goes here */}
-      </div>
+    
     </div>
   );
 };

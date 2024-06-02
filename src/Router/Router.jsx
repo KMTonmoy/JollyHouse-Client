@@ -7,6 +7,7 @@ import Signup from "../Pages/Signup/Signup";
 import Apartments from "../Pages/Apertment/Apertment";
 import PrivateRoute from "./PrivateRoute";
 import UserHome from "../Pages/Dashboard/UserHome";
+import ManageMembers from "../Pages/Dashboard/ManageMembur";
 
 
 export const router = createBrowserRouter([
@@ -28,7 +29,7 @@ export const router = createBrowserRouter([
             },
             {
                 path: "/apartments",
-                element: <PrivateRoute><Apartments /></PrivateRoute>,
+                element: <Apartments />
             },
 
         ]
@@ -41,6 +42,11 @@ export const router = createBrowserRouter([
                 path: '/dashboard',
                 element: <UserHome />
             },
+            {
+                path: 'manage-members',
+                element: <ManageMembers />
+            },
+       
         ]
     }
 ]);

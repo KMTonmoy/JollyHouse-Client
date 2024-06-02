@@ -89,23 +89,30 @@ const AuthProvider = ({ children }) => {
         }
     };
 
-    const saveUser = async (user) => {
-        try {
-            const currentUser = {
-                email: user?.email,
-                role: 'user',
-                status: 'Verified',
-            };
-            const { data } = await axios.put(
-                `${import.meta.env.VITE_API_URL}/user`,
-                currentUser
-            );
-            return data;
-        } catch (error) {
-            console.error("Error saving user:", error);
-            throw error;
-        }
+
+    const saveUser = (user) => {
+        return new Promise((resolve, reject) => {
+            setTimeout(async () => {
+                try {
+                    const currentUser = {
+                        email: user?.email,
+                        name: user.displayName,
+                        role: 'user',
+                        status: 'Verified',
+                    };
+                    const { data } = await axios.put(
+                        `${import.meta.env.VITE_API_URL}/user`,
+                        currentUser
+                    );
+                    resolve(data);
+                } catch (error) {
+                    console.error("Error saving user:", error);
+                    reject(error);
+                }
+            }, 5000);
+        });
     };
+
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
@@ -113,7 +120,7 @@ const AuthProvider = ({ children }) => {
             if (currentUser) {
                 try {
                     const token = await getToken(currentUser.email);
-                    await saveUser(currentUser);
+                    await saveUser(currentUser);  
                     localStorage.setItem('access-token', token);
 
                     // Set Axios default headers
