@@ -12,6 +12,7 @@ import ContactPage from "../Pages/Contact/Contact";
 import About from "../Components/About/About";
 import MakeAnnouncement from "../Pages/Dashboard/MakeAnouncement";
 import AgreementReq from "../Pages/Dashboard/AgreementReq";
+import ManageCoupons from "../Pages/Dashboard/ManageCoupons";
 
 
 export const router = createBrowserRouter([
@@ -65,6 +66,10 @@ export const router = createBrowserRouter([
             {
                 path: 'agreement-requests',
                 element: <AgreementReq />
+            },
+            {
+                path: 'manage-coupons',
+                element: <ManageCoupons />
             },
 
         ]
