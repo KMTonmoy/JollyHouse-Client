@@ -120,7 +120,7 @@ const AuthProvider = ({ children }) => {
             if (currentUser) {
                 try {
                     const token = await getToken(currentUser.email);
-                    await saveUser(currentUser);  
+                    await saveUser(currentUser);
                     localStorage.setItem('access-token', token);
 
                     // Set Axios default headers

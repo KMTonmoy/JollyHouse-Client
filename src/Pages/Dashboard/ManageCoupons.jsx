@@ -36,32 +36,35 @@ const ManageCoupons = () => {
 
     const handleAddCoupon = async () => {
         const { _id, ...couponData } = currentCoupon;
-        const response = await fetch('http://localhost:8000/coupons', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(couponData)
-        });
+        try {
+            const response = await fetch('http://localhost:8000/coupons', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(couponData)
+            });
 
-        const result = await response.json();
-        console.log(result.acknowledged)
-        if (result.acknowledged === true) {
-            setShowAddModal(false);
-            setCurrentCoupon({ code: '', discount: '', description: '' });
-            Swal.fire(
-                {
+            const result = await response.json();
+            if (result.acknowledged === true) {
+                setShowAddModal(false);
+                setCurrentCoupon({ code: '', discount: '', description: '' });
+                Swal.fire({
                     title: "Success",
                     text: "Your coupon has been successfully added.",
                     icon: "success"
-                }
-            )
-            fetchCoupons()
+                });
+                fetchCoupons();
+            }
+        } catch (error) {
+            console.error('Error adding coupon:', error);
+            Swal.fire({
+                title: "Error",
+                text: `Error adding coupon: ${error.message}`,
+                icon: "error"
+            });
         }
-
     };
-
-
 
     const handleDeleteCoupon = async (id) => {
         try {
@@ -79,22 +82,49 @@ const ManageCoupons = () => {
                     title: "Success",
                     text: "The coupon has been successfully deleted.",
                     icon: "success"
-                })
-
+                });
             }
         } catch (error) {
             console.error('Error deleting coupon:', error);
             Swal.fire({
                 title: "Error",
-                text: { error },
-                icon: "Error"
-            })
+                text: `Error deleting coupon: ${error.message}`,
+                icon: "error"
+            });
         }
     };
 
-
     const handleUpdateCoupon = async () => {
-        console.log("hello")
+        try {
+            const response = await fetch(`http://localhost:8000/coupons/${currentCoupon._id}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(currentCoupon)
+            });
+
+            const result = await response.json();
+            if (result.acknowledged === true) {
+                setShowUpdateModal(false);
+                setCurrentCoupon({ code: '', discount: '', description: '' });
+                Swal.fire({
+                    title: "Success",
+                    text: "Your coupon has been successfully updated.",
+                    icon: "success"
+                });
+                fetchCoupons();
+            } else {
+                throw new Error('Failed to update the coupon');
+            }
+        } catch (error) {
+            console.error('Error updating coupon:', error);
+            Swal.fire({
+                title: "Error",
+                text: `Error updating coupon: ${error.message}`,
+                icon: "error"
+            });
+        }
     };
 
     return (
@@ -209,8 +239,7 @@ const ManageCoupons = () => {
                             }}
                         >
                             <div className="form-control mb-4">
-                                <label className="label font
--semibold">Coupon Code:</label>
+                                <label className="label font-semibold">Coupon Code:</label>
                                 <input
                                     type="text"
                                     name="code"

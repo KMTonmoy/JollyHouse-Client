@@ -47,8 +47,7 @@ const ManageMembers = () => {
                 console.error('Error updating member role:', error);
             });
     };
-
-    const { user } = useContext(AuthContext);
+ 
 
     // Animation transitions for table rows
     const transitions = useTransition(members, {

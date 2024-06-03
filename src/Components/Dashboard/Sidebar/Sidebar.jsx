@@ -9,7 +9,7 @@ const Sidebar = () => {
   const { user } = useContext(AuthContext);
   const email = user?.email || '';
   const [data, setData] = useState({});
-  const [isOpen, setIsOpen] = useState(false); // State to manage sidebar open/close
+  const [isOpen, setIsOpen] = useState(false); 
 
   useEffect(() => {
     if (email) {

@@ -5,7 +5,7 @@ const Coupon = () => {
     const [coupons, setCoupons] = useState([]);
 
     useEffect(() => {
-        // Load coupon data from coupon.json
+     
         fetch('http://localhost:8000/coupons')
             .then(response => response.json())
             .then(data => setCoupons(data))
@@ -26,10 +26,10 @@ const Coupon = () => {
                 {coupons.map((coupon, index) => (
                     <div key={index} className={`rounded-lg shadow-lg p-6 ${getBackgroundColor(coupon.discount)}`}>
                         <h2 className="text-xl font-semibold mb-4 text-gray-800">Special Offer!</h2>
-                        <h2 className="text-lg font-semibold mb-4 text-gray-800">{coupon.discount}% off</h2>
+                        <h2 className="text-lg font-semibold mb-4 text-gray-800">Use <span className='font-extrabold text-xl text-purple-600'>{coupon.code}</span> to get {coupon.discount}% OFF</h2>
 
                         <p className="text-lg text-gray-600 mb-4">
-                            Use Code <span className="text-blue-600 font-semibold">{coupon.code}</span> {coupon.description}
+                            {coupon.description}
                         </p>
                         <Link
                             to="/apartments"
