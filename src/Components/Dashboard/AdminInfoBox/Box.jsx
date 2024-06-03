@@ -4,10 +4,9 @@ import { LuNewspaper } from "react-icons/lu";
 import CountUp from 'react-countup';
 import { MdOutlineToken } from "react-icons/md";
 
-
 const Box = () => {
     const [datas, setData] = useState([]);
-    const [rooms, setRooms] = useState([]);
+    const [availableRooms, setAvailableRooms] = useState([]);
     const [agreements, setAgreements] = useState([]);
     const [coupon, setCoupon] = useState([]);
 
@@ -21,21 +20,25 @@ const Box = () => {
     useEffect(() => {
         fetch(`http://localhost:8000/apartments`)
             .then(res => res.json())
-            .then(data => setRooms(data))
-            .catch(error => console.error('Error fetching user data:', error));
+            .then(data => {
+                const available = data.filter(room => room.status !== 'booked');
+                setAvailableRooms(available);
+            })
+            .catch(error => console.error('Error fetching apartment data:', error));
     }, []);
 
     useEffect(() => {
         fetch(`http://localhost:8000/agreement`)
             .then(res => res.json())
             .then(data => setAgreements(data))
-            .catch(error => console.error('Error fetching user data:', error));
+            .catch(error => console.error('Error fetching agreement data:', error));
     }, []);
+
     useEffect(() => {
         fetch(`http://localhost:8000/coupons`)
             .then(res => res.json())
             .then(data => setCoupon(data))
-            .catch(error => console.error('Error fetching user data:', error));
+            .catch(error => console.error('Error fetching coupon data:', error));
     }, []);
 
     return (
@@ -54,7 +57,7 @@ const Box = () => {
                 <FaBuilding className="text-4xl text-green-500 mr-4" />
                 <div>
                     <h1 className="text-3xl font-bold">
-                        <CountUp start={0} end={rooms.length} duration={2.75} />
+                        <CountUp start={0} end={availableRooms.length} duration={2.75} />
                     </h1>
                     <p className="text-gray-700">Available Apartments</p>
                 </div>

@@ -20,6 +20,7 @@ const AgreementReq = () => {
 
 
     const handleAccept = async (request) => {
+        console.log(request)
         try {
             // Fetch the apartment details
             const response = await fetch(`http://localhost:8000/apartments/${request.id}`);
@@ -69,7 +70,7 @@ const AgreementReq = () => {
                             });
 
                             if (updateUserResponse.ok) {
-                                fetchAgreementRequests();  
+                                fetchAgreementRequests();
                             } else {
                                 throw new Error('Failed to update user role');
                             }

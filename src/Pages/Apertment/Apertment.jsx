@@ -11,6 +11,9 @@ const Apartments = () => {
     const [loading, setLoading] = useState(true);
     const apartmentsPerPage = 6;
     const navigate = useNavigate();
+    const date = new Date().toISOString();
+    const year = new Date().getFullYear();
+    const month = new Date().getMonth() + 1;
 
     useEffect(() => {
         const fetchApartments = async () => {
@@ -60,6 +63,8 @@ const Apartments = () => {
                 blockName: apartment.blockName,
                 apartmentNo: apartment.apartmentNo,
                 rent: apartment.rent,
+                id: apartment._id,
+                date: `${month}/${date}/${year}`,
                 status: 'pending',
             };
 
