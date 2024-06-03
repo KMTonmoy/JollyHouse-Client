@@ -1,9 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../providers/AuthProvider';
 import Box from '../../Components/Dashboard/AdminInfoBox/Box';
-import ManageMembers from './ManageMembur';
+import RoleInfo from '../../Components/Dashboard/RoleInfo/RoleInfo';
 
-const UserHome = () => {
+
+const AdminHome = () => {
     const { user } = useContext(AuthContext);
     const email = user?.email || '';
     const [data, setData] = useState({});
@@ -34,8 +35,21 @@ const UserHome = () => {
                     <Box />
                     <div>
                         <div className='mt-20'>
-                            <h1 className='text-center text-2xl font-bold'>Quick Access</h1>
-                            <ManageMembers />
+
+                            <RoleInfo></RoleInfo>
+
+                        </div>
+                    </div>
+                </div>
+            )}
+            {role === 'member' && (
+                <div className="mt-8">
+                    <Box />
+                    <div>
+                        <div className='mt-20'>
+
+                            <RoleInfo></RoleInfo>
+
 
                         </div>
                     </div>
@@ -45,4 +59,4 @@ const UserHome = () => {
     );
 };
 
-export default UserHome;
+export default AdminHome;

@@ -6,13 +6,13 @@ import DashboardLayout from "../Layout/DashboardLayout";
 import Signup from "../Pages/Signup/Signup";
 import Apartments from "../Pages/Apertment/Apertment";
 import PrivateRoute from "./PrivateRoute";
-import UserHome from "../Pages/Dashboard/UserHome";
 import ManageMembers from "../Pages/Dashboard/ManageMembur";
 import ContactPage from "../Pages/Contact/Contact";
 import About from "../Components/About/About";
 import MakeAnnouncement from "../Pages/Dashboard/MakeAnouncement";
 import AgreementReq from "../Pages/Dashboard/AgreementReq";
 import ManageCoupons from "../Pages/Dashboard/ManageCoupons";
+import AdminHome from "../Pages/Dashboard/AdminHome";
 
 
 export const router = createBrowserRouter([
@@ -53,7 +53,7 @@ export const router = createBrowserRouter([
         children: [
             {
                 path: '/dashboard',
-                element: <UserHome />
+                element: < AdminHome />
             },
             {
                 path: 'manage-members',
