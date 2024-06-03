@@ -1,5 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { AuthContext } from '../../providers/AuthProvider';
+import React, { useEffect, useState } from 'react';
 import { useTransition, animated } from 'react-spring';
 
 const ManageMembers = () => {
@@ -12,7 +11,7 @@ const ManageMembers = () => {
     }, []);
 
     const fetchMembers = () => {
-        fetch(`http://localhost:8000/users`)
+        fetch('http://localhost:8000/users')
             .then(res => res.json())
             .then(data => {
                 const filteredMembers = data.filter(member => member.role === 'member');
@@ -26,19 +25,22 @@ const ManageMembers = () => {
             });
     };
 
-    const removeMember = (memberId) => {
-        fetch(`http://localhost:8000/users/${memberId}/role`, {
+    const removeMember = (member) => {
+        console.log(member);
+        fetch(`http://localhost:8000/users/${member.email}`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({ role: 'user' }),
         })
+
             .then(res => res.json())
             .then(data => {
-                if (data.success) {
+                if (data.modifiedCount > 0) {
                     // Update the local state to reflect the change
-                    setMembers(members.filter(member => member._id !== memberId));
+                    setMembers(members.filter(m => m._id !== member._id));
+                    fetchMembers()
                 } else {
                     console.error('Error updating member role:', data.message);
                 }
@@ -47,7 +49,6 @@ const ManageMembers = () => {
                 console.error('Error updating member role:', error);
             });
     };
- 
 
     // Animation transitions for table rows
     const transitions = useTransition(members, {
@@ -80,7 +81,12 @@ const ManageMembers = () => {
                                         <td className="p-[3px] text-xs md:text-xl md:p-4 border border-gray-300">{item.name}</td>
                                         <td className="p-[3px] md:p-4 border border-gray-300 text-xs md:text-xl md:w-full">{item.email}</td>
                                         <td className="p-[3px] md:p-4 border border-gray-300">
-                                            <button className="px-3 md:px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600" onClick={() => removeMember(item._id)}>Remove</button>
+                                            <button
+                                                className="px-3 md:px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+                                                onClick={() => removeMember(item)}
+                                            >
+                                                Remove
+                                            </button>
                                         </td>
                                     </animated.tr>
                                 ) : null

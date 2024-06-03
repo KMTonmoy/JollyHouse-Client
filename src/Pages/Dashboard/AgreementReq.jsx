@@ -34,7 +34,7 @@ const AgreementReq = () => {
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ status: 'booked' })
+                    body: JSON.stringify({ status: 'booked', })
                 });
 
                 // Check if the status update was successful
@@ -66,7 +66,7 @@ const AgreementReq = () => {
                                 headers: {
                                     'Content-Type': 'application/json'
                                 },
-                                body: JSON.stringify({ role: 'member' })
+                                body: JSON.stringify({ role: 'member', ids: request.id })
                             });
 
                             if (updateUserResponse.ok) {

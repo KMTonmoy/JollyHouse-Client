@@ -6,24 +6,25 @@ import { MdOutlineToken } from "react-icons/md";
 
 const Box = () => {
     const [datas, setData] = useState([]);
-    const [availableRooms, setAvailableRooms] = useState([]);
+    const [availableRooms, setAvailableRooms] = useState(0);
     const [agreements, setAgreements] = useState([]);
     const [coupon, setCoupon] = useState([]);
 
     useEffect(() => {
         fetch(`http://localhost:8000/users`)
             .then(res => res.json())
-            .then(data => setData(data))
+            .then(data => {
+                setData(data);
+                const members = data.filter(user => user.role === 'member');
+                setAvailableRooms(prevState => prevState - members.length);
+            })
             .catch(error => console.error('Error fetching user data:', error));
     }, []);
 
     useEffect(() => {
         fetch(`http://localhost:8000/apartments`)
             .then(res => res.json())
-            .then(data => {
-                const available = data.filter(room => room.status !== 'booked');
-                setAvailableRooms(available);
-            })
+            .then(data => setAvailableRooms(data.length))
             .catch(error => console.error('Error fetching apartment data:', error));
     }, []);
 
@@ -57,7 +58,7 @@ const Box = () => {
                 <FaBuilding className="text-4xl text-green-500 mr-4" />
                 <div>
                     <h1 className="text-3xl font-bold">
-                        <CountUp start={0} end={availableRooms.length} duration={2.75} />
+                        <CountUp start={0} end={availableRooms} duration={2.75} />
                     </h1>
                     <p className="text-gray-700">Available Apartments</p>
                 </div>
