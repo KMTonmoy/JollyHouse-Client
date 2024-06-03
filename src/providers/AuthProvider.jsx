@@ -90,28 +90,39 @@ const AuthProvider = ({ children }) => {
     };
 
 
-    const saveUser = (user) => {
-        return new Promise((resolve, reject) => {
-            setTimeout(async () => {
-                try {
-                    const currentUser = {
-                        email: user?.email,
-                        name: user.displayName,
-                        role: 'user',
-                        status: 'Verified',
-                    };
-                    const { data } = await axios.put(
-                        `${import.meta.env.VITE_API_URL}/user`,
-                        currentUser
-                    );
-                    resolve(data);
-                } catch (error) {
-                    console.error("Error saving user:", error);
-                    reject(error);
-                }
-            }, 5000);
-        });
+    const saveUser = async (user) => {
+        try {
+            // Check if the user already exists in the user collection
+            const existingUserResponse = await axios.get(
+                `${import.meta.env.VITE_API_URL}/users/${user?.email}`
+            );
+            const existingUser = existingUserResponse.data;
+
+            // If user already exists, return the existing user
+            if (existingUser) {
+                // console.log("User already exists:", existingUser);
+                return existingUser;
+            }
+
+            // If user doesn't exist, save the user
+            const currentUser = {
+                email: user?.email,
+                name: user.displayName,
+                role: 'user',
+                status: 'Verified',
+            };
+            const { data } = await axios.put(
+                `${import.meta.env.VITE_API_URL}/user`,
+                currentUser
+            );
+            // console.log("User saved:", data);
+            return data;
+        } catch (error) {
+            console.error("Error saving user:", error);
+            throw error;
+        }
     };
+
 
 
     useEffect(() => {
@@ -130,7 +141,6 @@ const AuthProvider = ({ children }) => {
                 }
             } else {
                 localStorage.removeItem('access-token');
-                delete axios.defaults.headers.common['Authorization'];
             }
             setLoading(false);
         });
