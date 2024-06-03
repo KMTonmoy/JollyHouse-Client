@@ -43,6 +43,16 @@ const Apartments = () => {
                 return;
             }
 
+            const checkResponse2 = await axios.get(`http://localhost:8000/users/${user.email}`);
+            if (checkResponse2.data.role === 'member') {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'You already have an apartment ',
+                });
+                return;
+            }
+
             const agreementData = {
                 userName: user.displayName,
                 userEmail: user.email,
@@ -73,6 +83,7 @@ const Apartments = () => {
             Swal.fire('Error', 'Error submitting agreement. Please try again.', 'error');
         }
     };
+
 
     const indexOfLastApartment = currentPage * apartmentsPerPage;
     const indexOfFirstApartment = indexOfLastApartment - apartmentsPerPage;

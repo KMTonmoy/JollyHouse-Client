@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
-
 const AgreementReq = () => {
     const [requests, setRequests] = useState([]);
+    const [apartments, setApartments] = useState([]);
 
     useEffect(() => {
         fetchAgreementRequests();
@@ -18,30 +18,100 @@ const AgreementReq = () => {
         }
     };
 
-    const handleAccept = async (email) => {
+
+    const handleAccept = async (request) => {
         try {
-            await fetch(`http://localhost:8000/agreement-requests/accept`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email }),
-            });
-            Swal.fire({
-                title: 'Accepted!',
-                text: 'Agreement request has been accepted.',
-                icon: 'success',
-                confirmButtonText: 'OK'
-            });
-            fetchAgreementRequests();
+            // Fetch the apartment details
+            const response = await fetch(`http://localhost:8000/apartments/${request.id}`);
+            const apartment = await response.json();
+
+            // Check if the apartment ID matches
+            if (apartment && apartment._id === request.id) {
+                // Update the apartment status to "booked"
+                const updateResponse = await fetch(`http://localhost:8000/apartments/${request.id}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ status: 'booked' })
+                });
+
+                // Check if the status update was successful
+                if (updateResponse.ok) {
+                    Swal.fire({
+                        title: 'Success!',
+                        text: 'The Agreement has been accepted.',
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    });
+
+                    // Delete the agreement request
+                    try {
+                        const deleteResponse = await fetch(`http://localhost:8000/agreement/${request._id}`, {
+                            method: 'DELETE',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ email: request.userEmail }),
+                        });
+                        const deleteResult = await deleteResponse.json();
+                        if (deleteResult.deletedCount > 0) {
+                            // Fetch the user details using the userEmail
+                            const userResponse = await fetch(`http://localhost:8000/users?email=${request.userEmail}`);
+                            const user = await userResponse.json();
+
+                            // Update the user's role to "member"
+
+                            const updateUserResponse = await fetch(`http://localhost:8000/users/${request.userEmail}`, {
+                                method: 'PATCH',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({ role: 'member' })
+                            });
+
+                            if (updateUserResponse.ok) {
+                                fetchAgreementRequests();  
+                            } else {
+                                throw new Error('Failed to update user role');
+                            }
+
+
+                        }
+                    } catch (error) {
+                        console.error('Error deleting agreement:', error);
+                        Swal.fire({
+                            title: 'Error!',
+                            text: 'There was an error deleting the agreement request.',
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                } else {
+                    throw new Error('Failed to update apartment status');
+                }
+            } else {
+                Swal.fire({
+                    title: 'Not Matched!',
+                    text: 'The agreement ID does not match any apartment ID.',
+                    icon: 'info',
+                    confirmButtonText: 'OK'
+                });
+            }
         } catch (error) {
-            console.error('Error accepting request:', error);
+            console.error('Error processing request:', error);
             Swal.fire({
                 title: 'Error!',
-                text: 'There was an error accepting the request.',
+                text: 'There was an error processing the request.',
                 icon: 'error',
                 confirmButtonText: 'OK'
             });
         }
     };
+
+
+
+
+
+
 
     const handleReject = async (data) => {
         Swal.fire({
@@ -83,7 +153,6 @@ const AgreementReq = () => {
         });
     };
 
-
     return (
         <div className="">
             <h1 className="text-3xl font-semibold mb-4">Agreement Requests</h1>
@@ -110,10 +179,10 @@ const AgreementReq = () => {
                                 <td className="px-4 py-2 fixed-width">{request.blockName}</td>
                                 <td className="px-4 py-2 fixed-width">{request.apartmentNo}</td>
                                 <td className="px-4 py-2 fixed-width">{request.rent}</td>
-                                <td className="px-4 py-2 fixed-width">{new Date(request.requestDate).toLocaleDateString()}</td>
+                                <td className="px-4 py-2 fixed-width">{new Date(request.date).toLocaleDateString()}</td>
                                 <td className="px-4 py-2 fixed-width space-x-2">
                                     <button
-                                        onClick={() => handleAccept(request.userEmail)}
+                                        onClick={() => handleAccept(request)}
                                         className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600"
                                     >
                                         Accept

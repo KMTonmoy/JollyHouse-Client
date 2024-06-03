@@ -55,6 +55,7 @@ const Apartments = () => {
                 blockName: apartment.blockName,
                 apartmentNo: apartment.apartmentNo,
                 rent: apartment.rent,
+                id: apartment._id,
                 status: 'pending',
                 date: `${year}/${month}/${day}`,
             };
