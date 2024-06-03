@@ -1,9 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { FaBuilding, FaUser } from 'react-icons/fa';
+import { FaBuilding, FaHome, FaMoneyCheck, FaUser } from 'react-icons/fa';
 import { LuNewspaper } from "react-icons/lu";
 import CountUp from 'react-countup';
 import { MdOutlineToken } from "react-icons/md";
 import { AuthContext } from '../../../providers/AuthProvider';
+import { SiCodeblocks } from "react-icons/si";
 
 const Box = () => {
     const [datas, setData] = useState([]);
@@ -11,6 +12,7 @@ const Box = () => {
     const [agreements, setAgreements] = useState([]);
     const [coupon, setCoupon] = useState([]);
     const [data, setuserData] = useState({});
+    const [memberFulldata, setmemberFulldata] = useState({});
     const { user } = useContext(AuthContext);
     const email = user?.email || '';
     const role = data.role;
@@ -57,6 +59,16 @@ const Box = () => {
             .then(data => setCoupon(data))
             .catch(error => console.error('Error fetching coupon data:', error));
     }, []);
+
+    useEffect(() => {
+        fetch(`http://localhost:8000/users/${email}`)
+            .then(res => res.json())
+            .then(data => setmemberFulldata(data))
+            .catch(error => console.error('Error fetching coupon data:', error));
+    }, []);
+
+
+    
 
     return (
         <>
@@ -105,6 +117,53 @@ const Box = () => {
                     </div>
                 </div>
             )}
+
+            {role === 'member' && (
+                <div>
+                    <div className="flex flex-wrap justify-center gap-6">
+                        <div className="bg-white bg-opacity-70 backdrop-filter backdrop-blur-lg shadow-lg rounded-lg py-10 px-6 w-full md:w-[380px] flex items-center transition-transform transform hover:scale-105">
+                            <FaHome className="text-4xl text-blue-500 mr-4" />
+                            <div>
+                                <h1 className="text-3xl font-bold">
+                                    <CountUp start={0} end={memberFulldata.apartmentNo} duration={1.00} />
+                                </h1>
+                                <p className="text-gray-700">Apartment Number</p>
+                            </div>
+                        </div>
+
+                        <div className="bg-white bg-opacity-70 backdrop-filter backdrop-blur-lg shadow-lg rounded-lg py-10 px-6 w-full md:w-[380px] flex items-center transition-transform transform hover:scale-105">
+                            <FaBuilding className="text-4xl text-green-500 mr-4" />
+                            <div>
+                                <h1 className="text-3xl font-bold">
+                                    <CountUp start={0} end={memberFulldata.floorNo} duration={1.00} />
+                                </h1>
+                                <p className="text-gray-700">Floor Number</p>
+                            </div>
+                        </div>
+
+                        <div className="bg-white bg-opacity-70 backdrop-filter backdrop-blur-lg shadow-lg rounded-lg py-10 px-6 w-full md:w-[380px] flex items-center transition-transform transform hover:scale-105">
+                            <SiCodeblocks className="text-4xl text-purple-500 mr-4" />
+                            <div>
+                                <h1 className="text-3xl font-bold">
+                                    {memberFulldata.blockName}
+                                </h1>
+                                <p className="text-gray-700">Block Name</p>
+                            </div>
+                        </div>
+
+                        <div className="bg-white bg-opacity-70 backdrop-filter backdrop-blur-lg shadow-lg rounded-lg py-10 px-6 w-full md:w-[380px] flex items-center transition-transform transform hover:scale-105">
+                            <FaMoneyCheck className="text-4xl text-red-500 mr-4" />
+                            <div>
+                                <h1 className="text-3xl font-bold">
+                                    <CountUp start={0} end={memberFulldata.rent} duration={3.75} />
+                                </h1>
+                                <p className="text-gray-700">Monthly Rent</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
 
         </>
 

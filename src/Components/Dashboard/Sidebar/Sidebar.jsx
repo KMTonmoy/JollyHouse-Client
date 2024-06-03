@@ -9,7 +9,8 @@ const Sidebar = () => {
   const { user } = useContext(AuthContext);
   const email = user?.email || '';
   const [data, setData] = useState({});
-  const [isOpen, setIsOpen] = useState(false); 
+  const [count, setCount] = useState({});
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     if (email) {
@@ -19,6 +20,13 @@ const Sidebar = () => {
         .catch(error => console.error('Error fetching user data:', error));
     }
   }, [email]);
+
+  useEffect(() => {
+    fetch(`http://localhost:8000/agreement`)
+      .then(res => res.json())
+      .then(data => setCount(data))
+
+  },);
 
   const role = data.role;
 
@@ -67,8 +75,12 @@ const Sidebar = () => {
                     <Link className="block py-2 px-4 rounded text-white bg-purple-700 hover:bg-purple-800 transition-colors" to="/dashboard/make-announcement">Make Announcement</Link>
                   </li>
                   <li>
-                    <Link className="block py-2 px-4 rounded text-white bg-purple-700 hover:bg-purple-800 transition-colors" to="/dashboard/agreement-requests">Agreement Requests</Link>
+                    <Link className="flex items-center justify-between py-2 px-4 rounded text-white bg-purple-700 hover:bg-purple-800 transition-colors" to="/dashboard/agreement-requests">
+                      <span>Agreement Requests</span>
+                      <span className="bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm">{count.length}</span>
+                    </Link>
                   </li>
+
                   <li>
                     <Link className="block py-2 px-4 rounded text-white bg-purple-700 hover:bg-purple-800 transition-colors" to="/dashboard/manage-coupons">Manage Coupons</Link>
                   </li>

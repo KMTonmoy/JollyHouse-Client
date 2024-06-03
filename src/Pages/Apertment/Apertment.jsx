@@ -11,9 +11,12 @@ const Apartments = () => {
     const [loading, setLoading] = useState(true);
     const apartmentsPerPage = 6;
     const navigate = useNavigate();
-    const date = new Date().toISOString();
+    const today = new Date();
+    const date = String(today.getDate()).padStart(2, '0');
     const year = new Date().getFullYear();
     const month = new Date().getMonth() + 1;
+
+    console.log(year, month, date)
 
     useEffect(() => {
         const fetchApartments = async () => {

@@ -66,7 +66,15 @@ const AgreementReq = () => {
                                 headers: {
                                     'Content-Type': 'application/json'
                                 },
-                                body: JSON.stringify({ role: 'member', ids: request.id })
+                                body: JSON.stringify({
+                                    role: 'member', ids: request.id,
+                                    userEmail: request.userEmail,
+                                    userName: request.userName,
+                                    floorNo: request.floorNo,
+                                    blockName: request.blockName,
+                                    apartmentNo: request.apartmentNo,
+                                    rent: request.rent
+                                })
                             });
 
                             if (updateUserResponse.ok) {

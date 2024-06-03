@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useTransition, animated } from 'react-spring';
+import Swal from 'sweetalert2';
 
 const ManageMembers = () => {
     const [members, setMembers] = useState([]);
@@ -37,17 +38,19 @@ const ManageMembers = () => {
 
             .then(res => res.json())
             .then(data => {
-                if (data.modifiedCount > 0) {
-                    // Update the local state to reflect the change
-                    setMembers(members.filter(m => m._id !== member._id));
-                    fetchMembers()
-                } else {
-                    console.error('Error updating member role:', data.message);
-                }
+
+                Swal.fire(
+                    {
+                        title: "Success!",
+                        text: "Member Has Been Removed",
+                        icon: "success"
+                    }
+                )
+                setMembers(members.filter(m => m._id !== member._id));
+                fetchMembers()
+
             })
-            .catch(error => {
-                console.error('Error updating member role:', error);
-            });
+
     };
 
     // Animation transitions for table rows
