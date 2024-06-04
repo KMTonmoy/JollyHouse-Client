@@ -1,45 +1,60 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { AuthContext } from '../../providers/AuthProvider';
+
+const fetchApartments = async () => {
+    const response = await axios.get('http://localhost:8000/apartments');
+    return response.data.filter(apartment => apartment.status === 'free');
+};
+
+const fetchUsers = async () => {
+    const response = await axios.get('http://localhost:8000/users');
+    return response.data;
+};
 
 const Apartments = () => {
     const { user } = useContext(AuthContext);
-    const [apartments, setApartments] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [loading, setLoading] = useState(true);
-    const [usersData, setUserData] = useState([]);
     const apartmentsPerPage = 6;
     const navigate = useNavigate();
     const today = new Date();
     const date = String(today.getDate()).padStart(2, '0');
     const year = new Date().getFullYear();
     const month = new Date().getMonth() + 1;
+    const queryClient = useQueryClient();
 
-    useEffect(() => {
-        const fetchApartments = async () => {
-            try {
-                const response = await axios.get('http://localhost:8000/apartments');
-                const filteredApartments = response.data.filter(apartment => {
-                    return apartment.status === 'free';
-                });
-                setApartments(filteredApartments);
-                setLoading(false);
-            } catch (error) {
-                console.error('Error fetching apartments:', error);
-            }
-        };
+    const { data: apartments = [], isLoading: apartmentsLoading, error: apartmentsError } = useQuery({
+        queryKey: ['apartments'],
+        queryFn: fetchApartments
+    });
 
-        fetchApartments();
-    }, []);
+    const { data: usersData = [], isLoading: usersLoading, error: usersError } = useQuery({
+        queryKey: ['users'],
+        queryFn: fetchUsers
+    });
 
-    useEffect(() => {
-        fetch(`http://localhost:8000/users`)
-            .then(res => res.json())
-            .then(data => setUserData(data))
-            .catch(error => console.error('Error fetching user data:', error));
-    }, []);
+    const agreementMutation = useMutation({
+        mutationFn: (agreementData) => axios.post('http://localhost:8000/agreement', agreementData, {
+            headers: {
+                Authorization: `Bearer ${user.token}`,
+            },
+        }),
+        onSuccess: () => {
+            queryClient.invalidateQueries(['apartments']);
+            Swal.fire({
+                title: "Agreement Submitted",
+                text: "Your agreement has been submitted successfully.",
+                icon: "success",
+                confirmButtonText: 'OK'
+            });
+        },
+        onError: () => {
+            Swal.fire('Error', 'Error submitting agreement. Please try again.', 'error');
+        }
+    });
 
     const handleAgreement = async (apartment) => {
         if (!user) {
@@ -80,24 +95,10 @@ const Apartments = () => {
                 status: 'pending',
             };
 
-            const response = await axios.post('http://localhost:8000/agreement', agreementData, {
-                headers: {
-                    Authorization: `Bearer ${user.token}`,
-                },
-            });
-            if (response.data.success) {
-                Swal.fire({
-                    title: "Agreement Submitted",
-                    text: "Your agreement has been submitted successfully.",
-                    icon: "success",
-                    confirmButtonText: 'OK'
-                });
-            } else {
-                Swal.fire('Error', response.data.message, 'error');
-            }
+            agreementMutation.mutate(agreementData);
         } catch (error) {
-            console.error('Error submitting agreement:', error);
-            Swal.fire('Error', 'Error submitting agreement. Please try again.', 'error');
+            console.error('Error checking agreement status:', error);
+            Swal.fire('Error', 'Error checking agreement status. Please try again.', 'error');
         }
     };
 
@@ -107,8 +108,12 @@ const Apartments = () => {
 
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-    if (loading) {
+    if (apartmentsLoading || usersLoading) {
         return <div className="text-center mt-8">Loading...</div>;
+    }
+
+    if (apartmentsError || usersError) {
+        return <div className="text-center mt-8">Error loading data. Please try again later.</div>;
     }
 
     return (

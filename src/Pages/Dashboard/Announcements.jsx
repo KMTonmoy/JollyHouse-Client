@@ -1,50 +1,49 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+
+const fetchAnnouncements = async () => {
+    const response = await fetch('http://localhost:8000/announcement');
+    if (!response.ok) {
+        throw new Error('Network response was not ok');
+    }
+    const data = await response.json();
+    return data.reverse();
+};
+
+const updateAnnouncementStatus = async (announcement) => {
+    const response = await fetch(`http://localhost:8000/announcements/${announcement._id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: 'old' }),
+    });
+    if (!response.ok) {
+        throw new Error('Failed to update announcement status');
+    }
+};
 
 const Announcements = () => {
-    const [announcements, setAnnouncements] = useState([]);
+    const queryClient = useQueryClient();
     const [selectedAnnouncement, setSelectedAnnouncement] = useState(null);
 
-    useEffect(() => {
-        const fetchAnnouncements = async () => {
-            try {
-                const response = await fetch('http://localhost:8000/announcement');
-                if (response.ok) {
-                    const data = await response.json();
-                    // Reverse the order of announcements
-                    setAnnouncements(data.reverse());
-                } else {
-                    console.error('Failed to fetch announcements:', response.statusText);
-                }
-            } catch (error) {
-                console.error('Error fetching announcements:', error);
-            }
-        };
+    const { data: announcements = [], error, isLoading } = useQuery({
+        queryKey: ['announcements'],
+        queryFn: fetchAnnouncements,
+    });
 
-        fetchAnnouncements();
-    }, []);
+    const mutation = useMutation({
+        mutationFn: updateAnnouncementStatus,
+        onSuccess: () => {
+            queryClient.invalidateQueries(['announcements']);
+        },
+    });
 
-    const handleAnnouncementClick = async (announcement) => {
+    const handleAnnouncementClick = (announcement) => {
         setSelectedAnnouncement(announcement);
         const modal = document.getElementById('announcement_modal');
         if (modal) {
             modal.showModal();
         }
-
-        try {
-            await fetch(`http://localhost:8000/announcements/${announcement._id}`, {
-                method: 'PATCH',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ status: 'old' }),
-            });
-
-            setAnnouncements((prevAnnouncements) =>
-                prevAnnouncements.map((a) =>
-                    a.id === announcement.id ? { ...a, status: 'old' } : a
-                )
-            );
-        } catch (error) {
-            console.error('Error updating announcement status:', error);
-        }
+        mutation.mutate(announcement);
     };
 
     const handleCloseModal = () => {
@@ -55,11 +54,18 @@ const Announcements = () => {
         setSelectedAnnouncement(null);
     };
 
+    if (isLoading) {
+        return <div>Loading...</div>;
+    }
+
+    if (error) {
+        return <div>Error: {error.message}</div>;
+    }
+
     return (
         <div className="p-8 w-full bg-gray-100">
             <h1 className="text-3xl font-bold mb-4">Announcements</h1>
             <h1 className="text-xl mb-4">Click To See Full Announcement Details</h1>
-
             <ul className="space-y-4">
                 {announcements.map((announcement) => (
                     <li
@@ -72,7 +78,6 @@ const Announcements = () => {
                     </li>
                 ))}
             </ul>
-
             <dialog id="announcement_modal" className="modal">
                 <div className="modal-box">
                     {selectedAnnouncement && (
