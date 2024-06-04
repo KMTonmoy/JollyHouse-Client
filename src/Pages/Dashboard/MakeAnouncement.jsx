@@ -6,13 +6,34 @@ const MakeAnnouncement = () => {
     const [description, setDescription] = useState('');
 
     // Function to handle form submission
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-  
-        console.log('Submitted:', { title, description });
- 
-        setTitle('');
-        setDescription('');
+
+        const data = {
+            title: title,
+            description: description,
+            status: 'new'
+        };
+
+        try {
+            const response = await fetch('http://localhost:8000/announcement', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
+
+            if (response.ok) {
+                console.log('Submitted:', data);
+                setTitle('');
+                setDescription('');
+            } else {
+                console.error('Error:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
     };
 
     return (

@@ -10,6 +10,7 @@ const Sidebar = () => {
   const email = user?.email || '';
   const [data, setData] = useState({});
   const [count, setCount] = useState({});
+  const [newAnnouncementsCount, setNewAnnouncementsCount] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
@@ -25,20 +26,32 @@ const Sidebar = () => {
     fetch(`http://localhost:8000/agreement`)
       .then(res => res.json())
       .then(data => setCount(data))
+      .catch(error => console.error('Error fetching agreement data:', error));
+  }, []);
 
-  },);
+  useEffect(() => {
+    fetch(`http://localhost:8000/announcement`)
+      .then(res => res.json())
+      .then(data => {
+        const newAnnouncements = data.filter(announcement => announcement.status === 'new');
+        setNewAnnouncementsCount(newAnnouncements.length);
+      })
+      .catch(error => console.error('Error fetching announcement data:', error));
+  }, []);
 
   const role = data.role;
 
   return (
-    <div className="relative md:flex ">
+    <div className="relative md:flex">
       {/* Toggle button for small screens */}
-      <button
-        className="absolute top-4 left-4 text-3xl p-2 rounded md:hidden focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 z-30"
-        onClick={() => setIsOpen(!isOpen)}
-      >
-        <FaBars />
-      </button>
+      {!isOpen && (
+        <button
+          className="absolute top-4 left-4 text-3xl p-2 rounded md:hidden focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 z-30"
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          <FaBars />
+        </button>
+      )}
       <AnimatePresence>
         {(isOpen || window.innerWidth >= 768) && (
           <motion.div
@@ -48,7 +61,6 @@ const Sidebar = () => {
             exit={{ x: window.innerWidth < 768 ? -300 : 0 }}
             transition={{ ease: "easeOut", duration: 0.3 }}
           >
-
             <button
               className="absolute top-4 right-4 text-3xl md:hidden focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
               onClick={() => setIsOpen(!isOpen)}
@@ -63,9 +75,10 @@ const Sidebar = () => {
                 <Link className="block py-2 px-4 rounded text-white bg-purple-700 hover:bg-purple-800 transition-colors" to="/">Home</Link>
               </li>
               <li>
-                <Link className="block py-2 px-4 rounded text-white bg-purple-700 hover:bg-purple-800 transition-colors" to="/dashboard"> <span className='capitalize'>{role}</span> Home</Link>
+                <Link className="block py-2 px-4 rounded text-white bg-purple-700 hover:bg-purple-800 transition-colors" to="/dashboard">
+                  <span className='capitalize'>{role}</span> Home
+                </Link>
               </li>
-
               {role === 'admin' && (
                 <>
                   <li>
@@ -80,7 +93,6 @@ const Sidebar = () => {
                       <span className="bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm">{count.length}</span>
                     </Link>
                   </li>
-
                   <li>
                     <Link className="block py-2 px-4 rounded text-white bg-purple-700 hover:bg-purple-800 transition-colors" to="/dashboard/manage-coupons">Manage Coupons</Link>
                   </li>
@@ -95,7 +107,10 @@ const Sidebar = () => {
                     <Link className="block py-2 px-4 rounded text-white bg-purple-700 hover:bg-purple-800 transition-colors" to="/dashboard/payment-history">Payment History</Link>
                   </li>
                   <li>
-                    <Link className="block py-2 px-4 rounded text-white bg-purple-700 hover:bg-purple-800 transition-colors" to="/dashboard/announcements">Announcements</Link>
+                    <Link className="block py-2 px-4 rounded text-white bg-purple-700 flex hover:bg-purple-800 transition-colors" to="/dashboard/announcements">
+                      Announcements
+                      <span className="bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm ml-2">{newAnnouncementsCount}</span>
+                    </Link>
                   </li>
                 </>
               )}

@@ -13,6 +13,7 @@ import MakeAnnouncement from "../Pages/Dashboard/MakeAnouncement";
 import AgreementReq from "../Pages/Dashboard/AgreementReq";
 import ManageCoupons from "../Pages/Dashboard/ManageCoupons";
 import AdminHome from "../Pages/Dashboard/AdminHome";
+import Announcements from "../Pages/Dashboard/Announcements";
 
 
 export const router = createBrowserRouter([
@@ -70,6 +71,10 @@ export const router = createBrowserRouter([
             {
                 path: 'manage-coupons',
                 element: <ManageCoupons />
+            },
+            {
+                path: 'announcements',
+                element: <Announcements></Announcements>
             },
 
         ]
