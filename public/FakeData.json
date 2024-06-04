@@ -5,7 +5,8 @@
         "floorNo": 2,
         "blockName": "A",
         "apartmentNo": 101,
-        "rent": 1500
+        "rent": 1500,
+        "status": "free"
     },
     {
         "id": 2,
@@ -13,7 +14,8 @@
         "floorNo": 3,
         "blockName": "B",
         "apartmentNo": 102,
-        "rent": 1800
+        "rent": 1800,
+        "status": "free"
     },
     {
         "id": 3,
@@ -21,7 +23,8 @@
         "floorNo": 1,
         "blockName": "C",
         "apartmentNo": 103,
-        "rent": 1600
+        "rent": 1600,
+        "status": "free"
     },
     {
         "id": 4,
@@ -29,7 +32,8 @@
         "floorNo": 4,
         "blockName": "A",
         "apartmentNo": 104,
-        "rent": 1900
+        "rent": 1900,
+        "status": "free"
     },
     {
         "id": 5,
@@ -37,7 +41,8 @@
         "floorNo": 2,
         "blockName": "B",
         "apartmentNo": 105,
-        "rent": 1700
+        "rent": 1700,
+        "status": "free"
     },
     {
         "id": 6,
@@ -45,7 +50,8 @@
         "floorNo": 3,
         "blockName": "C",
         "apartmentNo": 106,
-        "rent": 2000
+        "rent": 2000,
+        "status": "free"
     },
     {
         "id": 7,
@@ -53,7 +59,8 @@
         "floorNo": 1,
         "blockName": "A",
         "apartmentNo": 201,
-        "rent": 2200
+        "rent": 2200,
+        "status": "free"
     },
     {
         "id": 8,
@@ -61,7 +68,8 @@
         "floorNo": 2,
         "blockName": "B",
         "apartmentNo": 202,
-        "rent": 2400
+        "rent": 2400,
+        "status": "free"
     },
     {
         "id": 9,
@@ -69,7 +77,8 @@
         "floorNo": 3,
         "blockName": "C",
         "apartmentNo": 203,
-        "rent": 2600
+        "rent": 2600,
+        "status": "free"
     },
     {
         "id": 10,
@@ -77,7 +86,8 @@
         "floorNo": 4,
         "blockName": "A",
         "apartmentNo": 204,
-        "rent": 2800
+        "rent": 2800,
+        "status": "free"
     },
     {
         "id": 11,
@@ -85,7 +95,8 @@
         "floorNo": 1,
         "blockName": "B",
         "apartmentNo": 205,
-        "rent": 3000
+        "rent": 3000,
+        "status": "free"
     },
     {
         "id": 12,
@@ -93,7 +104,8 @@
         "floorNo": 2,
         "blockName": "C",
         "apartmentNo": 206,
-        "rent": 3200
+        "rent": 3200,
+        "status": "free"
     },
     {
         "id": 13,
@@ -101,7 +113,8 @@
         "floorNo": 3,
         "blockName": "A",
         "apartmentNo": 301,
-        "rent": 3400
+        "rent": 3400,
+        "status": "free"
     },
     {
         "id": 14,
@@ -109,7 +122,8 @@
         "floorNo": 4,
         "blockName": "B",
         "apartmentNo": 302,
-        "rent": 3600
+        "rent": 3600,
+        "status": "free"
     },
     {
         "id": 15,
@@ -117,7 +131,8 @@
         "floorNo": 1,
         "blockName": "C",
         "apartmentNo": 303,
-        "rent": 3800
+        "rent": 3800,
+        "status": "free"
     },
     {
         "id": 16,
@@ -125,7 +140,8 @@
         "floorNo": 2,
         "blockName": "A",
         "apartmentNo": 304,
-        "rent": 4000
+        "rent": 4000,
+        "status": "free"
     },
     {
         "id": 17,
@@ -133,7 +149,8 @@
         "floorNo": 3,
         "blockName": "B",
         "apartmentNo": 305,
-        "rent": 4200
+        "rent": 4200,
+        "status": "free"
     },
     {
         "id": 18,
@@ -141,7 +158,8 @@
         "floorNo": 4,
         "blockName": "C",
         "apartmentNo": 306,
-        "rent": 4400
+        "rent": 4400,
+        "status": "free"
     },
     {
         "id": 19,
@@ -149,7 +167,8 @@
         "floorNo": 1,
         "blockName": "A",
         "apartmentNo": 401,
-        "rent": 4600
+        "rent": 4600,
+        "status": "free"
     },
     {
         "id": 20,
@@ -157,6 +176,7 @@
         "floorNo": 2,
         "blockName": "B",
         "apartmentNo": 402,
-        "rent": 4800
+        "rent": 4800,
+        "status": "free"
     }
 ]

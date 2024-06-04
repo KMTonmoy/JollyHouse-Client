@@ -33,8 +33,29 @@ const ManageMembers = () => {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ role: 'user' }),
+            body: JSON.stringify({
+                role: 'user',
+                floorNo: "N/A",
+                blockName: "N/A",
+                apartmentNo: "N/A",
+                rent: "N/A",
+            }),
         })
+
+        fetch(`http://localhost:8000/apartments/${member.ids}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                status: 'free',
+            }),
+        })
+
+
+
+
+
 
             .then(res => res.json())
             .then(data => {

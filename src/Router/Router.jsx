@@ -14,6 +14,7 @@ import AgreementReq from "../Pages/Dashboard/AgreementReq";
 import ManageCoupons from "../Pages/Dashboard/ManageCoupons";
 import AdminHome from "../Pages/Dashboard/AdminHome";
 import Announcements from "../Pages/Dashboard/Announcements";
+import MyProfile from "../Pages/Dashboard/MyProfile";
 
 
 export const router = createBrowserRouter([
@@ -75,6 +76,10 @@ export const router = createBrowserRouter([
             {
                 path: 'announcements',
                 element: <Announcements></Announcements>
+            },
+            {
+                path: 'my-profile',
+                element: <MyProfile />
             },
 
         ]

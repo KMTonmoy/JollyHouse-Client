@@ -10,7 +10,6 @@ const Sidebar = () => {
   const email = user?.email || '';
   const [data, setData] = useState({});
   const [count, setCount] = useState({});
-  const [newAnnouncementsCount, setNewAnnouncementsCount] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
@@ -29,15 +28,7 @@ const Sidebar = () => {
       .catch(error => console.error('Error fetching agreement data:', error));
   }, []);
 
-  useEffect(() => {
-    fetch(`http://localhost:8000/announcement`)
-      .then(res => res.json())
-      .then(data => {
-        const newAnnouncements = data.filter(announcement => announcement.status === 'new');
-        setNewAnnouncementsCount(newAnnouncements.length);
-      })
-      .catch(error => console.error('Error fetching announcement data:', error));
-  }, []);
+
 
   const role = data.role;
 
@@ -82,6 +73,9 @@ const Sidebar = () => {
               {role === 'admin' && (
                 <>
                   <li>
+                    <Link className="block py-2 px-4 rounded text-white bg-purple-700 hover:bg-purple-800 transition-colors" to="/dashboard/my-profile">Admin Profile</Link>
+                  </li>
+                  <li>
                     <Link className="block py-2 px-4 rounded text-white bg-purple-700 hover:bg-purple-800 transition-colors" to="/dashboard/manage-members">Manage Members</Link>
                   </li>
                   <li>
@@ -92,6 +86,9 @@ const Sidebar = () => {
                       <span>Agreement Requests</span>
                       <span className="bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm">{count.length}</span>
                     </Link>
+                  </li>
+                  <li>
+                    <Link className="block py-2 px-4 rounded text-white bg-purple-700 hover:bg-purple-800 transition-colors" to="/dashboard/my-profile">My Profile</Link>
                   </li>
                   <li>
                     <Link className="block py-2 px-4 rounded text-white bg-purple-700 hover:bg-purple-800 transition-colors" to="/dashboard/manage-coupons">Manage Coupons</Link>
@@ -107,10 +104,8 @@ const Sidebar = () => {
                     <Link className="block py-2 px-4 rounded text-white bg-purple-700 hover:bg-purple-800 transition-colors" to="/dashboard/payment-history">Payment History</Link>
                   </li>
                   <li>
-                    <Link className="block py-2 px-4 rounded text-white bg-purple-700 flex hover:bg-purple-800 transition-colors" to="/dashboard/announcements">
-                      Announcements
-                      <span className="bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm ml-2">{newAnnouncementsCount}</span>
-                    </Link>
+                    <Link className="block py-2 px-4 rounded text-white bg-purple-700  hover:bg-purple-800 transition-colors" to="/dashboard/announcements">
+                      Announcements</Link>
                   </li>
                 </>
               )}

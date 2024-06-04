@@ -110,6 +110,10 @@ const AuthProvider = ({ children }) => {
                 name: user.displayName,
                 role: 'user',
                 status: 'Verified',
+                floorNo: "N/A",
+                blockName: "N/A",
+                apartmentNo: "N/A",
+                rent: "N/A",
             };
             const { data } = await axios.put(
                 `${import.meta.env.VITE_API_URL}/user`,

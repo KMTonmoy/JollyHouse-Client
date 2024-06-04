@@ -9,6 +9,7 @@ const Apartments = () => {
     const [apartments, setApartments] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [loading, setLoading] = useState(true);
+    const [usersData, setUserData] = useState([]);
     const apartmentsPerPage = 6;
     const navigate = useNavigate();
     const today = new Date();
@@ -22,7 +23,10 @@ const Apartments = () => {
         const fetchApartments = async () => {
             try {
                 const response = await axios.get('http://localhost:8000/apartments');
-                setApartments(response.data);
+                const filteredApartments = response.data.filter(apartment => {
+                    return !usersData || !usersData.apartmentNo || apartment.apartmentNo !== usersData.apartmentNo;
+                });
+                setApartments(filteredApartments);
                 setLoading(false);
             } catch (error) {
                 console.error('Error fetching apartments:', error);
@@ -30,7 +34,14 @@ const Apartments = () => {
         };
 
         fetchApartments();
-    }, []);
+    }, [usersData]);
+
+    useEffect(() => {
+        fetch(`http://localhost:8000/users/${user?.email}`)
+            .then(res => res.json())
+            .then(data => setUserData(data))
+            .catch(error => console.error('Error fetching user data:', error));
+    }, [user?.email]);
 
     const handleAgreement = async (apartment) => {
         if (!user) {
@@ -93,6 +104,7 @@ const Apartments = () => {
     };
 
 
+ 
     const indexOfLastApartment = currentPage * apartmentsPerPage;
     const indexOfFirstApartment = indexOfLastApartment - apartmentsPerPage;
     const currentApartments = apartments.slice(indexOfFirstApartment, indexOfLastApartment);
