@@ -17,14 +17,12 @@ const Apartments = () => {
     const year = new Date().getFullYear();
     const month = new Date().getMonth() + 1;
 
-    console.log(year, month, date)
-
     useEffect(() => {
         const fetchApartments = async () => {
             try {
                 const response = await axios.get('http://localhost:8000/apartments');
                 const filteredApartments = response.data.filter(apartment => {
-                    return !usersData || !usersData.apartmentNo || apartment.apartmentNo !== usersData.apartmentNo;
+                    return apartment.status === 'free';
                 });
                 setApartments(filteredApartments);
                 setLoading(false);
@@ -34,14 +32,14 @@ const Apartments = () => {
         };
 
         fetchApartments();
-    }, [usersData]);
+    }, []);
 
     useEffect(() => {
-        fetch(`http://localhost:8000/users/${user?.email}`)
+        fetch(`http://localhost:8000/users`)
             .then(res => res.json())
             .then(data => setUserData(data))
             .catch(error => console.error('Error fetching user data:', error));
-    }, [user?.email]);
+    }, []);
 
     const handleAgreement = async (apartment) => {
         if (!user) {
@@ -103,8 +101,6 @@ const Apartments = () => {
         }
     };
 
-
- 
     const indexOfLastApartment = currentPage * apartmentsPerPage;
     const indexOfFirstApartment = indexOfLastApartment - apartmentsPerPage;
     const currentApartments = apartments.slice(indexOfFirstApartment, indexOfLastApartment);

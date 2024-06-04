@@ -25,7 +25,7 @@ const MakeAnnouncement = () => {
             });
 
             if (response.ok) {
-                console.log('Submitted:', data);
+                // console.log('Submitted:', data);
                 setTitle('');
                 setDescription('');
             } else {

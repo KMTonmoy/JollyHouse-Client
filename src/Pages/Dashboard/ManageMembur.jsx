@@ -27,7 +27,7 @@ const ManageMembers = () => {
     };
 
     const removeMember = (member) => {
-        console.log(member);
+        // console.log(member);
         fetch(`http://localhost:8000/users/${member.email}`, {
             method: 'PATCH',
             headers: {
@@ -35,10 +35,11 @@ const ManageMembers = () => {
             },
             body: JSON.stringify({
                 role: 'user',
-                floorNo: "N/A",
-                blockName: "N/A",
-                apartmentNo: "N/A",
-                rent: "N/A",
+                floorNo: "none",
+                blockName: "none",
+                apartmentNo: "none",
+                rent: "none",
+                agreementAcceptDate: "",
             }),
         })
 

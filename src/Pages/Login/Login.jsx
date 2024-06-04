@@ -12,7 +12,7 @@ const Login = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const from = location.state?.from?.pathname || "/";
-    console.log('state in the location login page', location.state)
+    // console.log('state in the location login page', location.state)
     const handleLogin = async (e) => {
         e.preventDefault();
         try {

@@ -3,6 +3,10 @@ import Swal from 'sweetalert2';
 const AgreementReq = () => {
     const [requests, setRequests] = useState([]);
     const [apartments, setApartments] = useState([]);
+    const today = new Date();
+    const date = String(today.getDate()).padStart(2, '0');
+    const year = new Date().getFullYear();
+    const month = new Date().getMonth() + 1;
 
     useEffect(() => {
         fetchAgreementRequests();
@@ -20,7 +24,7 @@ const AgreementReq = () => {
 
 
     const handleAccept = async (request) => {
-        console.log(request)
+        // console.log(request)
         try {
             // Fetch the apartment details
             const response = await fetch(`http://localhost:8000/apartments/${request.id}`);
@@ -73,7 +77,8 @@ const AgreementReq = () => {
                                     floorNo: request.floorNo,
                                     blockName: request.blockName,
                                     apartmentNo: request.apartmentNo,
-                                    rent: request.rent
+                                    rent: request.rent,
+                                    agreementAcceptDate: `${month}/${date}/${year}`,
                                 })
                             });
 
@@ -123,6 +128,7 @@ const AgreementReq = () => {
 
 
     const handleReject = async (data) => {
+
         Swal.fire({
             title: "Are you sure?",
             text: "You won't be able to revert this!",
@@ -141,12 +147,13 @@ const AgreementReq = () => {
                     });
                     const responseData = await response.json();
                     if (responseData.deletedCount > 0) {
+
                         Swal.fire({
-                            icon: "success",
-                            title: `${data.userName} has been deleted`,
-                            showConfirmButton: false,
-                            timer: 1500
+                            title: "Success!",
+                            text: `Agreement Requests has been deleted`,
+                            icon: "success"
                         });
+
                         fetchAgreementRequests();
                     }
                 } catch (error) {

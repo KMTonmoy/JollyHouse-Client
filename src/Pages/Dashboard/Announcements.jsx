@@ -10,7 +10,8 @@ const Announcements = () => {
                 const response = await fetch('http://localhost:8000/announcement');
                 if (response.ok) {
                     const data = await response.json();
-                    setAnnouncements(data);
+                    // Reverse the order of announcements
+                    setAnnouncements(data.reverse());
                 } else {
                     console.error('Failed to fetch announcements:', response.statusText);
                 }

@@ -100,7 +100,7 @@ const AuthProvider = ({ children }) => {
 
             // If user already exists, return the existing user
             if (existingUser) {
-                // console.log("User already exists:", existingUser);
+                // // console.log("User already exists:", existingUser);
                 return existingUser;
             }
 
@@ -110,16 +110,16 @@ const AuthProvider = ({ children }) => {
                 name: user.displayName,
                 role: 'user',
                 status: 'Verified',
-                floorNo: "N/A",
-                blockName: "N/A",
-                apartmentNo: "N/A",
-                rent: "N/A",
+                floorNo: "none",
+                blockName: "none",
+                apartmentNo: "none",
+                rent: "none",
             };
             const { data } = await axios.put(
                 `${import.meta.env.VITE_API_URL}/user`,
                 currentUser
             );
-            // console.log("User saved:", data);
+            // // console.log("User saved:", data);
             return data;
         } catch (error) {
             console.error("Error saving user:", error);

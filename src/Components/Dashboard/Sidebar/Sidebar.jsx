@@ -72,9 +72,7 @@ const Sidebar = () => {
               </li>
               {role === 'admin' && (
                 <>
-                  <li>
-                    <Link className="block py-2 px-4 rounded text-white bg-purple-700 hover:bg-purple-800 transition-colors" to="/dashboard/my-profile">Admin Profile</Link>
-                  </li>
+
                   <li>
                     <Link className="block py-2 px-4 rounded text-white bg-purple-700 hover:bg-purple-800 transition-colors" to="/dashboard/manage-members">Manage Members</Link>
                   </li>
@@ -88,15 +86,18 @@ const Sidebar = () => {
                     </Link>
                   </li>
                   <li>
-                    <Link className="block py-2 px-4 rounded text-white bg-purple-700 hover:bg-purple-800 transition-colors" to="/dashboard/my-profile">My Profile</Link>
+                    <Link className="block py-2 px-4 rounded text-white bg-purple-700 hover:bg-purple-800 transition-colors" to="/dashboard/manage-coupons">Manage Coupons</Link>
                   </li>
                   <li>
-                    <Link className="block py-2 px-4 rounded text-white bg-purple-700 hover:bg-purple-800 transition-colors" to="/dashboard/manage-coupons">Manage Coupons</Link>
+                    <Link className="block py-2 px-4 rounded text-white bg-purple-700 hover:bg-purple-800 transition-colors" to="/dashboard/my-profile">My Profile</Link>
                   </li>
                 </>
               )}
               {role === 'member' && (
                 <>
+                  <li>
+                    <Link className="block py-2 px-4 rounded text-white bg-purple-700 hover:bg-purple-800 transition-colors" to="/dashboard/my-profile">My Profile</Link>
+                  </li>
                   <li>
                     <Link className="block py-2 px-4 rounded text-white bg-purple-700 hover:bg-purple-800 transition-colors" to="/dashboard/make-payment">Make Payment</Link>
                   </li>
@@ -114,6 +115,7 @@ const Sidebar = () => {
                   <li>
                     <Link className="block py-2 px-4 rounded text-white bg-purple-700 hover:bg-purple-800 transition-colors" to="/dashboard/my-profile">My Profile</Link>
                   </li>
+
                   <li>
                     <Link className="block py-2 px-4 rounded text-white bg-purple-700 hover:bg-purple-800 transition-colors" to="/dashboard/announcements">Announcements</Link>
                   </li>
