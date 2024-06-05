@@ -4,7 +4,7 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../../Components/hooks/useAuth";
 
-const CheckoutForm = ({ totalToPay }) => {
+const CheckoutForm = ({ totalToPay, paymentMonth }) => {
     const [error, setError] = useState('');
     const [clientSecret, setClientSecret] = useState('');
     const [transactionId, setTransactionId] = useState('');
@@ -12,7 +12,8 @@ const CheckoutForm = ({ totalToPay }) => {
     const elements = useElements();
     const { user } = useAuth();
     const navigate = useNavigate();
-
+    const today = new Date();
+    const currentDate = `${today.getDate().toString().padStart(2, '0')}/${today.getMonth() + 1}/${today.getFullYear()}`
     useEffect(() => {
         if (totalToPay > 0) {
             fetch('http://localhost:8000/create-payment-intent', {
@@ -22,14 +23,14 @@ const CheckoutForm = ({ totalToPay }) => {
                 },
                 body: JSON.stringify({ price: totalToPay }),
             })
-            .then(response => response.json())
-            .then(data => {
-                console.log(data.clientSecret);
-                setClientSecret(data.clientSecret);
-            })
-            .catch(error => {
-                console.error('Error fetching client secret:', error);
-            });
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data.clientSecret);
+                    setClientSecret(data.clientSecret);
+                })
+                .catch(error => {
+                    console.error('Error fetching client secret:', error);
+                });
         }
     }, [totalToPay]);
 
@@ -80,12 +81,13 @@ const CheckoutForm = ({ totalToPay }) => {
             console.log('transaction id', paymentIntent.id);
             setTransactionId(paymentIntent.id);
 
-        
+
             const payment = {
                 email: user.email,
                 price: totalToPay,
                 transactionId: paymentIntent.id,
-                date: new Date(),  
+                paymentMonth: paymentMonth,
+                SubmitDate: currentDate,
                 status: 'pending'
             }
 
@@ -96,25 +98,25 @@ const CheckoutForm = ({ totalToPay }) => {
                 },
                 body: JSON.stringify(payment),
             })
-            .then(response => response.json())
-            .then(data => {
-                console.log('payment saved', data);
-                // assuming refetch is defined somewhere
-                // refetch();
-                if (data?.paymentResult?.insertedId) {
-                    Swal.fire({
-                        position: "top-end",
-                        icon: "success",
-                        title: "Thank you for the taka paisa",
-                        showConfirmButton: false,
-                        timer: 1500
-                    });
-                    // navigate('/dashboard/paymentHistory')
-                }
-            })
-            .catch(error => {
-                console.error('Error saving payment:', error);
-            });
+                .then(response => response.json())
+                .then(data => {
+                    console.log('payment saved', data);
+                    // assuming refetch is defined somewhere
+                    // refetch();
+                    if (data?.paymentResult?.insertedId) {
+                        Swal.fire({
+                            position: "top-end",
+                            icon: "success",
+                            title: "Thank you for the taka paisa",
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                        // navigate('/dashboard/paymentHistory')
+                    }
+                })
+                .catch(error => {
+                    console.error('Error saving payment:', error);
+                });
         }
     };
 

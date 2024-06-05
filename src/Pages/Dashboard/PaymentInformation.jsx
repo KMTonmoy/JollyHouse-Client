@@ -2,19 +2,14 @@ import React, { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../../providers/AuthProvider';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Elements } from "@stripe/react-stripe-js";
-import { loadStripe } from "@stripe/stripe-js";
-import CheckoutForm from './CheckoutForm';
 
-const Payment = () => {
-    const [couponCode, setCouponCode] = useState('');
+const PaymentInformation = () => {
+
     const [memberInfo, setMemberInfo] = useState({});
-    const [coupons, setCoupons] = useState([]);
-    const [discount, setDiscount] = useState(0);
-    const [totalToPay, setTotalToPay] = useState(0);
+
     const { user } = useContext(AuthContext);
     const navigate = useNavigate();
-    const stripePromise = loadStripe(import.meta.env.VITE_Payment_Gateway_PK);
+
 
     useEffect(() => {
         const fetchMemberInfo = async () => {
@@ -22,25 +17,16 @@ const Payment = () => {
                 const response = await fetch(`http://localhost:8000/users/${user?.email}`);
                 const userData = await response.json();
                 setMemberInfo(userData);
-                setTotalToPay(userData.rent);
+
             } catch (error) {
                 console.error('Error fetching user information:', error);
             }
         };
 
-        const fetchCoupons = async () => {
-            try {
-                const response = await fetch('http://localhost:8000/coupons');
-                const couponsData = await response.json();
-                setCoupons(couponsData);
-            } catch (error) {
-                console.error('Error fetching coupons:', error);
-            }
-        };
 
         if (user) {
             fetchMemberInfo();
-            fetchCoupons();
+
         }
     }, [user]);
 
@@ -48,21 +34,9 @@ const Payment = () => {
         e.preventDefault();
         const month = e.target.elements.month.value;
         console.log(month);
-        document.getElementById('my_modal_1').showModal();
+        navigate('/dashboard/process-payment', { state: { paymentMonth: month } });
     };
 
-    const applyCoupon = () => {
-        const coupon = coupons.find(c => c.code === couponCode);
-        if (coupon) {
-            const discountAmount = (memberInfo.rent * coupon.discount) / 100;
-            setDiscount(discountAmount);
-            setTotalToPay(memberInfo.rent - discountAmount);
-        } else {
-            setDiscount(0);
-            setTotalToPay(memberInfo.rent);
-            alert('Invalid coupon code');
-        }
-    };
 
     return (
         <div className="container mx-auto flex justify-center items-center min-h-screen">
@@ -90,27 +64,10 @@ const Payment = () => {
                             ))}
                         </select>
                     </div>
-                    <CouponCodeField
-                        value={couponCode}
-                        onChange={(e) => setCouponCode(e.target.value)}
-                        onApplyCoupon={applyCoupon}
-                    />
-                    {discount > 0 && <p className="text-green-500 mt-2">Coupon applied! You get ${discount} off.</p>}
-                    <div className='mt-5'>
-                        <p className='text-xl font-bold'>Total to Pay: ${totalToPay}</p>
-                    </div>
+
                     <button type="submit" className='bg-green-500 mt-5 p-3 font-bold text-white rounded-md w-full'>Process Payment</button>
                 </form>
-                <dialog id="my_modal_1" className="modal">
-                    <div className="modal-box">
 
-                        <Elements stripe={stripePromise}>
-                            <CheckoutForm totalToPay={totalToPay} />
-                        </Elements>
-
-
-                    </div>
-                </dialog>
             </motion.div>
         </div>
     );
@@ -125,21 +82,11 @@ const MemberInfoField = ({ label, value }) => {
     );
 };
 
-const CouponCodeField = ({ value, onChange, onApplyCoupon }) => {
-    return (
-        <div>
-            <label className='block mb-2'>Coupon Code:</label>
-            <div className='flex'>
-                <input className='outline-none p-2 w-full border-2 border-blue-100 rounded-l-md' type="text" value={value} onChange={onChange} />
-                <button type="button" className='bg-green-500 font-bold text-white p-2 rounded-r-md' onClick={onApplyCoupon}>Apply Coupon</button>
-            </div>
-        </div>
-    );
-};
+
 
 const months = [
     'January', 'February', 'March', 'April', 'May', 'June',
     'July', 'August', 'September', 'October', 'November', 'December'
 ];
 
-export default Payment;
+export default PaymentInformation;

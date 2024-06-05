@@ -15,7 +15,8 @@ import ManageCoupons from "../Pages/Dashboard/ManageCoupons";
 import AdminHome from "../Pages/Dashboard/AdminHome";
 import Announcements from "../Pages/Dashboard/Announcements";
 import MyProfile from "../Pages/Dashboard/MyProfile";
-import Payment from "../Pages/Dashboard/Payment";
+import PaymentInformation from "../Pages/Dashboard/PaymentInformation";
+import Pay from "../Pages/Dashboard/Pay";
  
 
 export const router = createBrowserRouter([
@@ -84,9 +85,14 @@ export const router = createBrowserRouter([
             },
             {
                 path: 'make-payment',
-                element: <Payment />
+                element: <PaymentInformation />
             },
-        
+
+            {
+                path: 'process-payment',
+                element: <Pay />
+            },
+
 
         ]
     }
