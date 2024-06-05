@@ -18,7 +18,7 @@ const ManageCoupons = () => {
 
     const fetchCoupons = async () => {
         try {
-            const response = await fetch('http://localhost:8000/coupons');
+            const response = await fetch('https://jolly-home-server.vercel.app/coupons');
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
@@ -37,7 +37,7 @@ const ManageCoupons = () => {
     const handleAddCoupon = async () => {
         const { _id, ...couponData } = currentCoupon;
         try {
-            const response = await fetch('http://localhost:8000/coupons', {
+            const response = await fetch('https://jolly-home-server.vercel.app/coupons', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -68,7 +68,7 @@ const ManageCoupons = () => {
 
     const handleDeleteCoupon = async (id) => {
         try {
-            const response = await fetch(`http://localhost:8000/coupons/${id}`, {
+            const response = await fetch(`https://jolly-home-server.vercel.app/coupons/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json'
@@ -96,7 +96,7 @@ const ManageCoupons = () => {
 
     const handleUpdateCoupon = async () => {
         try {
-            const response = await fetch(`http://localhost:8000/coupons/${currentCoupon._id}`, {
+            const response = await fetch(`https://jolly-home-server.vercel.app/coupons/${currentCoupon._id}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json'

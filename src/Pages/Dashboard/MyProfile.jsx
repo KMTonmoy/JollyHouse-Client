@@ -15,7 +15,7 @@ const MyProfile = () => {
     useEffect(() => {
         const fetchAdminData = async () => {
             try {
-                const response = await fetch(`http://localhost:8000/users/${user.email}`);
+                const response = await fetch(`https://jolly-home-server.vercel.app/users/${user.email}`);
                 const data = await response.json();
                 setAdminData(data);
             } catch (error) {
@@ -25,7 +25,7 @@ const MyProfile = () => {
 
         const fetchRoomsData = async () => {
             try {
-                const response = await fetch('http://localhost:8000/apartments');
+                const response = await fetch('https://jolly-home-server.vercel.app/apartments');
                 const rooms = await response.json();
                 setTotalRooms(rooms.length);
                 setAvailableRooms(rooms.filter(room => !room.status || room.status === 'free').length);
@@ -37,7 +37,7 @@ const MyProfile = () => {
 
         const fetchUsersData = async () => {
             try {
-                const response = await fetch('http://localhost:8000/users');
+                const response = await fetch('https://jolly-home-server.vercel.app/users');
                 const users = await response.json();
                 setTotalUsers(users.length);
                 setTotalMembers(users.filter(user => user.role === 'member').length);
@@ -58,7 +58,7 @@ const MyProfile = () => {
 
     useEffect(() => {
         if (email) {
-            fetch(`http://localhost:8000/users/${email}`)
+            fetch(`https://jolly-home-server.vercel.app/users/${email}`)
                 .then(res => res.json())
                 .then(data => setuserData(data))
                 .catch(error => console.error('Error fetching user data:', error));
@@ -69,7 +69,7 @@ const MyProfile = () => {
 
     useEffect(() => {
 
-        fetch(`http://localhost:8000/agreement/${user?.email}`)
+        fetch(`https://jolly-home-server.vercel.app/agreement/${user?.email}`)
             .then(res => res.json())
             .then(data => setagreement(data))
 

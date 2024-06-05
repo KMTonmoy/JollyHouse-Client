@@ -14,7 +14,7 @@ const AgreementReq = () => {
 
     const fetchAgreementRequests = async () => {
         try {
-            const response = await fetch('http://localhost:8000/agreement');
+            const response = await fetch('https://jolly-home-server.vercel.app/agreement');
             const data = await response.json();
             setRequests(data);
         } catch (error) {
@@ -27,13 +27,13 @@ const AgreementReq = () => {
         // console.log(request)
         try {
             // Fetch the apartment details
-            const response = await fetch(`http://localhost:8000/apartments/${request.id}`);
+            const response = await fetch(`https://jolly-home-server.vercel.app/apartments/${request.id}`);
             const apartment = await response.json();
 
             // Check if the apartment ID matches
             if (apartment && apartment._id === request.id) {
                 // Update the apartment status to "booked"
-                const updateResponse = await fetch(`http://localhost:8000/apartments/${request.id}`, {
+                const updateResponse = await fetch(`https://jolly-home-server.vercel.app/apartments/${request.id}`, {
                     method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json'
@@ -52,7 +52,7 @@ const AgreementReq = () => {
 
                     // Delete the agreement request
                     try {
-                        const deleteResponse = await fetch(`http://localhost:8000/agreement/${request._id}`, {
+                        const deleteResponse = await fetch(`https://jolly-home-server.vercel.app/agreement/${request._id}`, {
                             method: 'DELETE',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ email: request.userEmail }),
@@ -60,12 +60,12 @@ const AgreementReq = () => {
                         const deleteResult = await deleteResponse.json();
                         if (deleteResult.deletedCount > 0) {
                             // Fetch the user details using the userEmail
-                            const userResponse = await fetch(`http://localhost:8000/users?email=${request.userEmail}`);
+                            const userResponse = await fetch(`https://jolly-home-server.vercel.app/users?email=${request.userEmail}`);
                             const user = await userResponse.json();
 
                             // Update the user's role to "member"
 
-                            const updateUserResponse = await fetch(`http://localhost:8000/users/${request.userEmail}`, {
+                            const updateUserResponse = await fetch(`https://jolly-home-server.vercel.app/users/${request.userEmail}`, {
                                 method: 'PATCH',
                                 headers: {
                                     'Content-Type': 'application/json'
@@ -140,7 +140,7 @@ const AgreementReq = () => {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 try {
-                    const response = await fetch(`http://localhost:8000/agreement/${data}`, {
+                    const response = await fetch(`https://jolly-home-server.vercel.app/agreement/${data}`, {
                         method: 'DELETE',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ email: data.userEmail }),

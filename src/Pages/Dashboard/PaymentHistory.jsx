@@ -9,7 +9,7 @@ const PaymentHistory = () => {
     const email = user?.email;
 
     const fetchPayment = async () => {
-        const response = await axios.get(`http://localhost:8000/payments/${email}`);
+        const response = await axios.get(`https://jolly-home-server.vercel.app/payments/${email}`);
         return response.data;
     };
 

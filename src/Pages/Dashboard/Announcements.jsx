@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
 const fetchAnnouncements = async () => {
-    const response = await fetch('http://localhost:8000/announcement');
+    const response = await fetch('https://jolly-home-server.vercel.app/announcement');
     if (!response.ok) {
         throw new Error('Network response was not ok');
     }
@@ -11,7 +11,7 @@ const fetchAnnouncements = async () => {
 };
 
 const updateAnnouncementStatus = async (announcement) => {
-    const response = await fetch(`http://localhost:8000/announcements/${announcement._id}`, {
+    const response = await fetch(`https://jolly-home-server.vercel.app/announcements/${announcement._id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: 'old' }),

@@ -19,7 +19,7 @@ const Box = () => {
 
     useEffect(() => {
         if (email) {
-            fetch(`http://localhost:8000/users/${email}`)
+            fetch(`https://jolly-home-server.vercel.app/users/${email}`)
                 .then(res => res.json())
                 .then(data => setuserData(data))
                 .catch(error => console.error('Error fetching user data:', error));
@@ -29,7 +29,7 @@ const Box = () => {
 
 
     useEffect(() => {
-        fetch(`http://localhost:8000/users`)
+        fetch(`https://jolly-home-server.vercel.app/users`)
             .then(res => res.json())
             .then(data => {
                 setData(data);
@@ -40,28 +40,28 @@ const Box = () => {
     }, []);
 
     useEffect(() => {
-        fetch(`http://localhost:8000/apartments`)
+        fetch(`https://jolly-home-server.vercel.app/apartments`)
             .then(res => res.json())
             .then(data => setAvailableRooms(data.length))
             .catch(error => console.error('Error fetching apartment data:', error));
     }, []);
 
     useEffect(() => {
-        fetch(`http://localhost:8000/agreement`)
+        fetch(`https://jolly-home-server.vercel.app/agreement`)
             .then(res => res.json())
             .then(data => setAgreements(data))
             .catch(error => console.error('Error fetching agreement data:', error));
     }, []);
 
     useEffect(() => {
-        fetch(`http://localhost:8000/coupons`)
+        fetch(`https://jolly-home-server.vercel.app/coupons`)
             .then(res => res.json())
             .then(data => setCoupon(data))
             .catch(error => console.error('Error fetching coupon data:', error));
     }, []);
 
     useEffect(() => {
-        fetch(`http://localhost:8000/users/${email}`)
+        fetch(`https://jolly-home-server.vercel.app/users/${email}`)
             .then(res => res.json())
             .then(data => setmemberFulldata(data))
             .catch(error => console.error('Error fetching coupon data:', error));

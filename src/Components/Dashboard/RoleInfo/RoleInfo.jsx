@@ -8,26 +8,26 @@ const RoleInfo = () => {
     console.log(user)
     const { data: userData } = useQuery({
         queryKey: ['user', user?.email],
-        queryFn: () => fetch(`http://localhost:8000/users/${user.email}`).then(res => res.json())
+        queryFn: () => fetch(`https://jolly-home-server.vercel.app/users/${user.email}`).then(res => res.json())
     });
 
     const { data: announcementData } = useQuery({
         queryKey: 'announcements',
-        queryFn: () => fetch(`http://localhost:8000/announcement`).then(res => res.json())
+        queryFn: () => fetch(`https://jolly-home-server.vercel.app/announcement`).then(res => res.json())
     });
 
     const { data: paymentData } = useQuery({
         queryKey: ['payments', user?.email],
-        queryFn: () => fetch(`http://localhost:8000/payments/${user.email}`).then(res => res.json())
+        queryFn: () => fetch(`https://jolly-home-server.vercel.app/payments/${user.email}`).then(res => res.json())
     });
     const { data: paymentDataAdmin } = useQuery({
         queryKey: ['payments'],
-        queryFn: () => fetch(`http://localhost:8000/payments`).then(res => res.json())
+        queryFn: () => fetch(`https://jolly-home-server.vercel.app/payments`).then(res => res.json())
     });
 
     const { data: allUsersData } = useQuery({
         queryKey: 'users',
-        queryFn: () => fetch(`http://localhost:8000/users`).then(res => res.json())
+        queryFn: () => fetch(`https://jolly-home-server.vercel.app/users`).then(res => res.json())
     });
 
     const role = userData?.role;

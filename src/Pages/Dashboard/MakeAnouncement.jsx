@@ -16,7 +16,7 @@ const MakeAnnouncement = () => {
         };
 
         try {
-            const response = await fetch('http://localhost:8000/announcement', {
+            const response = await fetch('https://jolly-home-server.vercel.app/announcement', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

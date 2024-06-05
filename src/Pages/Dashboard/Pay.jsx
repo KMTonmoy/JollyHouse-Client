@@ -21,13 +21,13 @@ const Pay = () => {
 
     useEffect(() => {
         const fetchCoupons = async () => {
-            const response = await fetch('http://localhost:8000/coupons');
+            const response = await fetch('https://jolly-home-server.vercel.app/coupons');
             const couponsData = await response.json()
             setCoupons(couponsData);
         };
 
         const fetchMemberInfo = async () => {
-            const response = await fetch(`http://localhost:8000/users/${user?.email}`);
+            const response = await fetch(`https://jolly-home-server.vercel.app/users/${user?.email}`);
             const userData = await response.json()
             setMemberInfo(userData);
             setTotalToPay(userData.rent);

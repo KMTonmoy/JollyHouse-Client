@@ -12,7 +12,7 @@ const ManageMembers = () => {
     }, []);
 
     const fetchMembers = () => {
-        fetch('http://localhost:8000/users')
+        fetch('https://jolly-home-server.vercel.app/users')
             .then(res => res.json())
             .then(data => {
                 const filteredMembers = data.filter(member => member.role === 'member');
@@ -28,7 +28,7 @@ const ManageMembers = () => {
 
     const removeMember = (member) => {
         // console.log(member);
-        fetch(`http://localhost:8000/users/${member.email}`, {
+        fetch(`https://jolly-home-server.vercel.app/users/${member.email}`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
@@ -43,7 +43,7 @@ const ManageMembers = () => {
             }),
         })
 
-        fetch(`http://localhost:8000/apartments/${member.ids}`, {
+        fetch(`https://jolly-home-server.vercel.app/apartments/${member.ids}`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',

@@ -6,12 +6,12 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { AuthContext } from '../../providers/AuthProvider';
 
 const fetchApartments = async () => {
-    const response = await axios.get('http://localhost:8000/apartments');
+    const response = await axios.get('https://jolly-home-server.vercel.app/apartments');
     return response.data.filter(apartment => apartment.status === 'free');
 };
 
 const fetchUsers = async () => {
-    const response = await axios.get('http://localhost:8000/users');
+    const response = await axios.get('https://jolly-home-server.vercel.app/users');
     return response.data;
 };
 
@@ -37,7 +37,7 @@ const Apartments = () => {
     });
 
     const agreementMutation = useMutation({
-        mutationFn: (agreementData) => axios.post('http://localhost:8000/agreement', agreementData, {
+        mutationFn: (agreementData) => axios.post('https://jolly-home-server.vercel.app/agreement', agreementData, {
             headers: {
                 Authorization: `Bearer ${user.token}`,
             },
@@ -63,7 +63,7 @@ const Apartments = () => {
         }
 
         try {
-            const checkResponse = await axios.get(`http://localhost:8000/agreement/${user.email}`);
+            const checkResponse = await axios.get(`https://jolly-home-server.vercel.app/agreement/${user.email}`);
             if (checkResponse.data.agreement) {
                 Swal.fire({
                     icon: 'error',
@@ -73,7 +73,7 @@ const Apartments = () => {
                 return;
             }
 
-            const checkResponse2 = await axios.get(`http://localhost:8000/users/${user.email}`);
+            const checkResponse2 = await axios.get(`https://jolly-home-server.vercel.app/users/${user.email}`);
             if (checkResponse2.data.role === 'member') {
                 Swal.fire({
                     icon: 'error',

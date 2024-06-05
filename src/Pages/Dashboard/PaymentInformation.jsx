@@ -14,7 +14,7 @@ const PaymentInformation = () => {
     useEffect(() => {
         const fetchMemberInfo = async () => {
             try {
-                const response = await fetch(`http://localhost:8000/users/${user?.email}`);
+                const response = await fetch(`https://jolly-home-server.vercel.app/users/${user?.email}`);
                 const userData = await response.json();
                 setMemberInfo(userData);
 

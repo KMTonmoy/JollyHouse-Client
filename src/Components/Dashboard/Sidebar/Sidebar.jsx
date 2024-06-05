@@ -14,7 +14,7 @@ const Sidebar = () => {
 
   useEffect(() => {
     if (email) {
-      fetch(`http://localhost:8000/users/${email}`)
+      fetch(`https://jolly-home-server.vercel.app/users/${email}`)
         .then(res => res.json())
         .then(data => setData(data))
         .catch(error => console.error('Error fetching user data:', error));
@@ -22,7 +22,7 @@ const Sidebar = () => {
   }, [email]);
 
   useEffect(() => {
-    fetch(`http://localhost:8000/agreement`)
+    fetch(`https://jolly-home-server.vercel.app/agreement`)
       .then(res => res.json())
       .then(data => setCount(data))
       .catch(error => console.error('Error fetching agreement data:', error));

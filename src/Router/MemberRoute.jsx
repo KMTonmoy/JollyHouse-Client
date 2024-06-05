@@ -12,7 +12,7 @@ const MemberRoute = ({ children }) => {
         const fetchUserData = async () => {
             try {
                 if (user?.email) {
-                    const response = await fetch(`http://localhost:8000/users/${user.email}`);
+                    const response = await fetch(`https://jolly-home-server.vercel.app/users/${user.email}`);
                     const userData = await response.json();
                     setUserData(userData);
                 }

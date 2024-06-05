@@ -6,7 +6,7 @@ const Coupon = () => {
 
     useEffect(() => {
      
-        fetch('http://localhost:8000/coupons')
+        fetch('https://jolly-home-server.vercel.app/coupons')
             .then(response => response.json())
             .then(data => setCoupons(data))
             .catch(error => console.error('Error loading coupons:', error));

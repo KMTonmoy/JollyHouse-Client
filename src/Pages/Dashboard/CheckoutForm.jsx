@@ -16,7 +16,7 @@ const CheckoutForm = ({ totalToPay, paymentMonth }) => {
     const currentDate = `${today.getDate().toString().padStart(2, '0')}/${today.getMonth() + 1}/${today.getFullYear()}`
     useEffect(() => {
         if (totalToPay > 0) {
-            fetch('http://localhost:8000/create-payment-intent', {
+            fetch('https://jolly-home-server.vercel.app/create-payment-intent', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -92,7 +92,7 @@ const CheckoutForm = ({ totalToPay, paymentMonth }) => {
             }
 
 
-            fetch('http://localhost:8000/payments', {
+            fetch('https://jolly-home-server.vercel.app/payments', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
