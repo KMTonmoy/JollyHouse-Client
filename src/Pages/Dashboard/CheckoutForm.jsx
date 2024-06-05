@@ -91,6 +91,7 @@ const CheckoutForm = ({ totalToPay, paymentMonth }) => {
                 status: 'pending'
             }
 
+            
             fetch('http://localhost:8000/payments', {
                 method: 'POST',
                 headers: {
