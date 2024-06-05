@@ -55,6 +55,19 @@ const AdminHome = () => {
                     </div>
                 </div>
             )}
+            {role === 'user' && (
+                <div className="mt-8">
+                    <Box />
+                    <div>
+                        <div className='mt-20'>
+
+                            <RoleInfo></RoleInfo>
+
+
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

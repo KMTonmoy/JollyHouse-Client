@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../providers/AuthProvider';
 import { useNavigate, useLocation } from 'react-router-dom';
 
-const AdminRoute = ({ children }) => {
+const MemberRoute = ({ children }) => {
     const { user, logOut } = useContext(AuthContext);
     const [userData, setUserData] = useState({});
     const navigate = useNavigate();
@@ -27,17 +27,17 @@ const AdminRoute = ({ children }) => {
     const role = userData.role;
 
     useEffect(() => {
-        if (role === 'admin') {
-            console.log('Admin Welcome');
+        if (role === 'member') {
+            console.log('Member Welcome');
         } else if (role) {
-            console.log('Not an admin, logging out...');
+            console.log('Not a member, logging out...');
             logOut().then(() => {
                 navigate('/login', { state: { from: location }, replace: true });
             });
         }
     }, [role, logOut, navigate, location]);
 
-    return <>{role === 'admin' ? children : null}</>;
+    return <>{role === 'member' ? children : null}</>;
 };
 
-export default AdminRoute;
+export default MemberRoute;

@@ -25,7 +25,7 @@ const CheckoutForm = ({ totalToPay, paymentMonth }) => {
             })
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data.clientSecret);
+                    // console.log(data.clientSecret);
                     setClientSecret(data.clientSecret);
                 })
                 .catch(error => {
@@ -53,7 +53,7 @@ const CheckoutForm = ({ totalToPay, paymentMonth }) => {
         })
 
         if (error) {
-            console.log('payment error', error);
+            // console.log('payment error', error);
             setError(error.message);
             return;
         }
@@ -72,13 +72,13 @@ const CheckoutForm = ({ totalToPay, paymentMonth }) => {
         })
 
         if (confirmError) {
-            console.log('confirm error');
+            // console.log('confirm error');
             return;
         }
 
-        console.log('payment intent', paymentIntent);
+        // console.log('payment intent', paymentIntent);
         if (paymentIntent.status === 'succeeded') {
-            console.log('transaction id', paymentIntent.id);
+            // console.log('transaction id', paymentIntent.id);
             setTransactionId(paymentIntent.id);
 
 
@@ -91,7 +91,7 @@ const CheckoutForm = ({ totalToPay, paymentMonth }) => {
                 status: 'pending'
             }
 
-            
+
             fetch('http://localhost:8000/payments', {
                 method: 'POST',
                 headers: {
@@ -101,18 +101,17 @@ const CheckoutForm = ({ totalToPay, paymentMonth }) => {
             })
                 .then(response => response.json())
                 .then(data => {
-                    console.log('payment saved', data);
-                    // assuming refetch is defined somewhere
-                    // refetch();
-                    if (data?.paymentResult?.insertedId) {
+                    // console.log('payment saved', data);
+
+                    if (data?.result?.acknowledged && data?.result?.insertedId) {
                         Swal.fire({
                             position: "top-end",
                             icon: "success",
-                            title: "Thank you for the taka paisa",
+                            title: "Thank you for Pay Your Rent",
                             showConfirmButton: false,
                             timer: 1500
                         });
-                        // navigate('/dashboard/paymentHistory')
+                        navigate('/dashboard/payment-history');
                     }
                 })
                 .catch(error => {

@@ -68,7 +68,7 @@ const Box = () => {
     }, []);
 
 
-    
+
 
     return (
         <>
@@ -156,6 +156,51 @@ const Box = () => {
                             <div>
                                 <h1 className="text-3xl font-bold">
                                     <CountUp start={0} end={memberFulldata.rent} duration={3.75} />
+                                </h1>
+                                <p className="text-gray-700">Monthly Rent</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+            {role === 'user' && (
+                <div>
+                    <div className="flex flex-wrap justify-center gap-6">
+                        <div className="bg-white bg-opacity-70 backdrop-filter backdrop-blur-lg shadow-lg rounded-lg py-10 px-6 w-full md:w-[380px] flex items-center transition-transform transform hover:scale-105">
+                            <FaHome className="text-4xl text-blue-500 mr-4" />
+                            <div>
+                                <h1 className="text-3xl font-bold">
+                                    N/A
+                                </h1>
+                                <p className="text-gray-700">Apartment Number</p>
+                            </div>
+                        </div>
+
+                        <div className="bg-white bg-opacity-70 backdrop-filter backdrop-blur-lg shadow-lg rounded-lg py-10 px-6 w-full md:w-[380px] flex items-center transition-transform transform hover:scale-105">
+                            <FaBuilding className="text-4xl text-green-500 mr-4" />
+                            <div>
+                                <h1 className="text-3xl font-bold">
+                                    N/A
+                                </h1>
+                                <p className="text-gray-700">Floor Number</p>
+                            </div>
+                        </div>
+
+                        <div className="bg-white bg-opacity-70 backdrop-filter backdrop-blur-lg shadow-lg rounded-lg py-10 px-6 w-full md:w-[380px] flex items-center transition-transform transform hover:scale-105">
+                            <SiCodeblocks className="text-4xl text-purple-500 mr-4" />
+                            <div>
+                                <h1 className="text-3xl font-bold">
+                                    N/A
+                                </h1>
+                                <p className="text-gray-700">Block Name</p>
+                            </div>
+                        </div>
+
+                        <div className="bg-white bg-opacity-70 backdrop-filter backdrop-blur-lg shadow-lg rounded-lg py-10 px-6 w-full md:w-[380px] flex items-center transition-transform transform hover:scale-105">
+                            <FaMoneyCheck className="text-4xl text-red-500 mr-4" />
+                            <div>
+                                <h1 className="text-3xl font-bold">
+                                    N/A
                                 </h1>
                                 <p className="text-gray-700">Monthly Rent</p>
                             </div>

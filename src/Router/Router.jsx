@@ -17,7 +17,10 @@ import Announcements from "../Pages/Dashboard/Announcements";
 import MyProfile from "../Pages/Dashboard/MyProfile";
 import PaymentInformation from "../Pages/Dashboard/PaymentInformation";
 import Pay from "../Pages/Dashboard/Pay";
- 
+import PaymentHistory from "../Pages/Dashboard/PaymentHistory";
+import AdminRoute from "./AdminRoute";
+import MemberRoute from "./MemberRoute";
+
 
 export const router = createBrowserRouter([
     {
@@ -61,19 +64,19 @@ export const router = createBrowserRouter([
             },
             {
                 path: 'manage-members',
-                element: <ManageMembers />
+                element: <AdminRoute><ManageMembers /></AdminRoute>
             },
             {
                 path: 'make-announcement',
-                element: <MakeAnnouncement />
+                element: <AdminRoute><MakeAnnouncement /></AdminRoute>
             },
             {
                 path: 'agreement-requests',
-                element: <AgreementReq />
+                element: <AdminRoute><AgreementReq /></AdminRoute>
             },
             {
                 path: 'manage-coupons',
-                element: <ManageCoupons />
+                element: <AdminRoute><ManageCoupons /></AdminRoute>
             },
             {
                 path: 'announcements',
@@ -81,16 +84,20 @@ export const router = createBrowserRouter([
             },
             {
                 path: 'my-profile',
-                element: <MyProfile />
+                element: <PrivateRoute><MyProfile /></PrivateRoute>
             },
             {
                 path: 'make-payment',
-                element: <PaymentInformation />
+                element: <MemberRoute> <PaymentInformation /></MemberRoute>
             },
 
             {
                 path: 'process-payment',
-                element: <Pay />
+                element: <MemberRoute><Pay /></MemberRoute>
+            },
+            {
+                path: 'payment-history',
+                element: <MemberRoute><PaymentHistory /></MemberRoute>
             },
 
 

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Swal from 'sweetalert2';
 
 const ContactPage = () => {
     const [formData, setFormData] = useState({
@@ -17,8 +18,31 @@ const ContactPage = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Handle form submission logic, e.g., send form data to a server
-        // console.log('Form submitted:', formData);
+        fetch('https://formspree.io/f/mgegjkqr', {
+            method: 'POST',
+            body: JSON.stringify(formData),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => {
+                if (response.ok) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success!',
+                        text: 'Your message has been sent successfully.',
+                        confirmButtonText: 'OK'
+                    });
+                    console.log('Form submitted successfully!');
+                } else {
+                    // Handle error, e.g., show an error message
+                    console.error('Form submission failed:', response.statusText);
+                }
+            })
+            .catch(error => {
+                console.error('Error submitting form:', error);
+            });
+
         // Reset form fields
         setFormData({
             name: '',

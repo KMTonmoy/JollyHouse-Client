@@ -11,7 +11,7 @@ const MyProfile = () => {
     const [totalMembers, setTotalMembers] = useState(0);
     const [data, setuserData] = useState({});
     const [agreementData, setagreement] = useState([]);
-    
+
     useEffect(() => {
         const fetchAdminData = async () => {
             try {
@@ -139,27 +139,25 @@ const MyProfile = () => {
 
 
             {
-                role == "user" && (
-                    <>
-                        <div className="flex flex-col items-center">
-                            <div className="bg-white w-full md:w-[800px] rounded-lg shadow-lg p-6 mb-8">
-                                <img src={user.photoURL} alt="User" className="w-32 h-32 rounded-full mx-auto mb-4" />
-                                <h3 className="text-xl font-semibold text-center">{user.displayName}</h3>
-                                <p className="text-center">{user.email}</p>
-                                <p className="text-center">Agreement Date: {agreementData.agreement.date}</p>
-                            </div>
-
-                            <div className="bg-white  w-full md:w-[800px] rounded-lg shadow-lg p-6">
-                                <h4 className="text-lg font-semibold">Apartment Info</h4>
-                                <p>Floor: {agreementData.agreement.apartmentNo}</p>
-                                <p>Block: {agreementData.agreement.blockName}</p>
-                                <p>Agreement Status: {agreementData.agreement.status}</p>
-
-                            </div>
+                role === "user" && (
+                    <div className="flex flex-col items-center">
+                        <div className="bg-white w-full md:w-[800px] rounded-lg shadow-lg p-6 mb-8">
+                            <img src={user.photoURL} alt="User" className="w-32 h-32 rounded-full mx-auto mb-4" />
+                            <h3 className="text-xl font-semibold text-center">{user.displayName}</h3>
+                            <p className="text-center">{user.email}</p>
+                            <p className="text-center">Agreement Date: {agreementData?.agreement?.date || "N/A"}</p>
                         </div>
-                    </>
+
+                        <div className="bg-white  w-full md:w-[800px] rounded-lg shadow-lg p-6">
+                            <h4 className="text-lg font-semibold">Apartment Info</h4>
+                            <p>Floor: {agreementData?.agreement?.apartmentNo || "N/A"}</p>
+                            <p>Block: {agreementData?.agreement?.blockName || "N/A"}</p>
+                            <p>Agreement Status: {agreementData?.agreement?.status || "N/A"}</p>
+                        </div>
+                    </div>
                 )
             }
+
         </div>
     );
 };
