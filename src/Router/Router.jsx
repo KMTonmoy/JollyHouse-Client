@@ -16,7 +16,7 @@ import AdminHome from "../Pages/Dashboard/AdminHome";
 import Announcements from "../Pages/Dashboard/Announcements";
 import MyProfile from "../Pages/Dashboard/MyProfile";
 import Payment from "../Pages/Dashboard/Payment";
-
+ 
 
 export const router = createBrowserRouter([
     {
@@ -86,6 +86,7 @@ export const router = createBrowserRouter([
                 path: 'make-payment',
                 element: <Payment />
             },
+        
 
         ]
     }
