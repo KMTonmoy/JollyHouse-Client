@@ -87,8 +87,8 @@ const Navbar = () => {
                                 {user ? (
                                     <div>
                                         <p className="block px-4 py-2 text-gray-800">{user?.displayName}</p>
-                                        <Link to="/" className="block px-4 py-2 text-gray-800 hover:bg-gray-200">Home</Link>
-                                        <Link to="/apartments" className="block px-4 py-2 text-gray-800 hover:bg-gray-200">Apartments</Link>
+                                        
+                                         
                                         <Link to="/dashboard" className="block px-4 py-2 text-gray-800 hover:bg-gray-200">Dashboard</Link>
                                         <button onClick={handleLogout} className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-200">Logout</button>
                                     </div>
