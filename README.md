@@ -47,4 +47,4 @@ Once installed and running, access JOLLYHOUSE through your preferred web browser
  
 ## Live Site
 
-[Visit JOLLYHOUSE](https://assignment12jollyhome.netlify.app)
+[Visit JOLLYHOUSE](https://assignment12jollyhome.netlify.app) 
