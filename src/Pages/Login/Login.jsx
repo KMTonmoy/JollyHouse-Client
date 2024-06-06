@@ -17,6 +17,15 @@ const Login = () => {
         e.preventDefault();
         try {
             await signIn(email, password);
+            Swal.fire({
+                title: 'Login Successful',
+                text: 'You have successfully logged in.',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            });
+            setTimeout(() => {
+                navigate(from, { replace: true });
+            }, 4000);
         } catch (error) {
             setError(error.message);
         }

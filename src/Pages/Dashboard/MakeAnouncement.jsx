@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Swal from 'sweetalert2';
 
 const MakeAnnouncement = () => {
     // State variables to store the values of the form fields
@@ -25,20 +26,37 @@ const MakeAnnouncement = () => {
             });
 
             if (response.ok) {
-                // console.log('Submitted:', data);
+                // Reset form fields
                 setTitle('');
                 setDescription('');
+
+                // Show success alert
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: 'Announcement has been added successfully!',
+                });
             } else {
-                console.error('Error:', response.statusText);
+                // Show error alert
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: `Failed to add announcement: ${response.statusText}`,
+                });
             }
         } catch (error) {
-            console.error('Error:', error);
+            // Show error alert
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: `Failed to add announcement: ${error.message}`,
+            });
         }
     };
 
     return (
-        <div className="flex items-center justify-center    ">
-            <div className="w-full  p-8 bg-white rounded-lg shadow-lg">
+        <div className="flex items-center justify-center">
+            <div className="w-full p-8 bg-white rounded-lg shadow-lg">
                 <h2 className="text-4xl font-bold text-center text-purple-700 mb-6">Make Announcement</h2>
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div>

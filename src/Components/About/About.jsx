@@ -54,12 +54,12 @@ const About = () => {
                 </Link>
             </motion.div>
             <motion.div
-                className="mt-12 border border-gray-300 rounded-lg overflow-hidden"
+                className="mt-12 border border-gray-300 rounded-lg overflow-hidden shadow-xl"
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 1, duration: 0.5 }}
             >
-                <img src="https://traveltomorrow.com/wp-content/uploads/2021/02/147677254_2935210533472459_996703284364145499_n.jpg" alt="About JollyHouse" className="mx-auto w-full  rounded-lg shadow-xl" />
+                <img src="https://traveltomorrow.com/wp-content/uploads/2021/02/147677254_2935210533472459_996703284364145499_n.jpg" alt="About JollyHouse" className="w-full" />
             </motion.div>
         </motion.div>
     );

@@ -48,7 +48,7 @@ const ManageCoupons = () => {
             const result = await response.json();
             if (result.acknowledged === true) {
                 setShowAddModal(false);
-                setCurrentCoupon({ code: '', discount: '', description: '' });
+                resetCurrentCoupon();
                 Swal.fire({
                     title: "Success",
                     text: "Your coupon has been successfully added.",
@@ -67,30 +67,42 @@ const ManageCoupons = () => {
     };
 
     const handleDeleteCoupon = async (id) => {
-        try {
-            const response = await fetch(`https://jolly-home-server.vercel.app/coupons/${id}`, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
+        const result = await Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'No, cancel!',
+            reverseButtons: true
+        });
 
-            const result = await response.json();
-            if (result.acknowledged === true) {
-                fetchCoupons();
+        if (result.isConfirmed) {
+            try {
+                const response = await fetch(`https://jolly-home-server.vercel.app/coupons/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                const result = await response.json();
+                if (result.acknowledged === true) {
+                    fetchCoupons();
+                    Swal.fire({
+                        title: "Success",
+                        text: "The coupon has been successfully deleted.",
+                        icon: "success"
+                    });
+                }
+            } catch (error) {
+                console.error('Error deleting coupon:', error);
                 Swal.fire({
-                    title: "Success",
-                    text: "The coupon has been successfully deleted.",
-                    icon: "success"
+                    title: "Error",
+                    text: `Error deleting coupon: ${error.message}`,
+                    icon: "error"
                 });
             }
-        } catch (error) {
-            console.error('Error deleting coupon:', error);
-            Swal.fire({
-                title: "Error",
-                text: `Error deleting coupon: ${error.message}`,
-                icon: "error"
-            });
         }
     };
 
@@ -107,7 +119,7 @@ const ManageCoupons = () => {
             const result = await response.json();
             if (result.acknowledged === true) {
                 setShowUpdateModal(false);
-                setCurrentCoupon({ code: '', discount: '', description: '' });
+                resetCurrentCoupon();
                 Swal.fire({
                     title: "Success",
                     text: "Your coupon has been successfully updated.",
@@ -125,6 +137,10 @@ const ManageCoupons = () => {
                 icon: "error"
             });
         }
+    };
+
+    const resetCurrentCoupon = () => {
+        setCurrentCoupon({ _id: '', code: '', discount: '', description: '' });
     };
 
     return (
@@ -221,7 +237,16 @@ const ManageCoupons = () => {
                             </div>
                             <div className="modal-action flex justify-end">
                                 <button type="submit" className="btn btn-primary mr-2">Submit</button>
-                                <button type="button" className="btn btn-outline" onClick={() => setShowAddModal(false)}>Cancel</button>
+                                <button
+                                    type="button"
+                                    className="btn btn-outline"
+                                    onClick={() => {
+                                        setShowAddModal(false);
+                                        resetCurrentCoupon();
+                                    }}
+                                >
+                                    Cancel
+                                </button>
                             </div>
                         </form>
                     </div>
@@ -272,7 +297,16 @@ const ManageCoupons = () => {
                             </div>
                             <div className="modal-action flex justify-end">
                                 <button type="submit" className="btn btn-primary mr-2">Submit</button>
-                                <button type="button" className="btn btn-outline" onClick={() => setShowUpdateModal(false)}>Cancel</button>
+                                <button
+                                    type="button"
+                                    className="btn btn-outline"
+                                    onClick={() => {
+                                        setShowUpdateModal(false);
+                                        resetCurrentCoupon();
+                                    }}
+                                >
+                                    Cancel
+                                </button>
                             </div>
                         </form>
                     </div>
