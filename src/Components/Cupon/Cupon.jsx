@@ -25,10 +25,10 @@ const Coupon = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {coupons.map((coupon, index) => (
                     <div key={index} className={`rounded-lg shadow-lg p-6 ${getBackgroundColor(coupon.discount)}`}>
-                        <h2 className="text-xl font-semibold mb-4 text-gray-800">Special Offer!</h2>
+                        <h2 className=" md:text-xl font-semibold mb-4 text-gray-800">Special Offer!</h2>
                         <h2 className="text-lg font-semibold mb-4 text-gray-800">Use <span className='font-extrabold text-xl text-purple-600'>{coupon.code}</span> to get {coupon.discount}% OFF</h2>
 
-                        <p className="text-lg text-gray-600 mb-4">
+                        <p className="text-sm md:text-lg text-gray-600 mb-4">
                             {coupon.description}
                         </p>
                         <Link
