@@ -14,7 +14,7 @@ JOLLYHOUSE is a comprehensive Building Management System designed to cater to bo
 - **Announcements**: Display announcements for users and members.
 - **Apartment Management**: View and apply for available apartments with detailed information.
 - **Payment Processing**: Allow members to make payments securely online with optional coupon usage.
-- **Admin Panel**: Comprehensive admin panel to manage members, announcements, agreements, coupons, and more.
+- **Admin Panel**: Comprehensive admin panel to manage members, announcements, agreements, coupons, and more. 
 
 ## Installation
 
